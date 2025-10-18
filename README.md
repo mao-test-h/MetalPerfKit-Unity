@@ -1,2 +1,1 @@
-# MetalPerfKit-Unity
-Unity から Metal Performance HUD の機能を呼び出すためのパッケージ
+./Packages/jp.mao-test-h.metal-perfkit-unity/README.md
