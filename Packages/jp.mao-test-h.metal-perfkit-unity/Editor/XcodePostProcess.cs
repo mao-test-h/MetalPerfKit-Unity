@@ -50,7 +50,7 @@ namespace MetalPerfKit.Editor
         // Metal Performance HUD の環境変数を設定
         private static void SetEnvironmentVariables(string outputPath)
         {
-            const string settingsAssetPath = "Packages/MetalPerfKit-Unity/Editor/MetalPerfKit_LaunchEnvironment.asset";
+            const string settingsAssetPath = "Packages/jp.mao-test-h.metal-perfkit-unity/Editor/MetalPerfKit_LaunchEnvironment.asset";
             var settings = AssetDatabase.LoadAssetAtPath<LaunchEnvironment>(settingsAssetPath);
             if (settings == null)
             {
