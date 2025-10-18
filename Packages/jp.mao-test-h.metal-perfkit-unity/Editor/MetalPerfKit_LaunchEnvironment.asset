@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e08d781742b624a3cacbd9d489690f72, type: 3}
+  m_Name: MetalPerfKit_LaunchEnvironment
+  m_EditorClassIdentifier: 
+  enableOpacity: 1
+  opacity: 1
+  enableScale: 1
+  scale: 0.2
+  enableAlignment: 1
+  alignment: 2
+  enableInsights: 1
+  insightTimeout: 10
+  insightReportInterval: 5

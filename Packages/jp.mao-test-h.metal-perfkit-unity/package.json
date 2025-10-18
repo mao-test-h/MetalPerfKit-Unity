@@ -1,0 +1,11 @@
+{
+  "name": "jp.mao-test-h.metal-perfkit-unity",
+  "displayName": "MetalPerfKit-Unity",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "keywords": ["iOS", "Performance"],
+  "license": "MIT",
+  "documentationUrl": "https://github.com/mao-test-h/MetalPerfKit-Unity",
+  "changelogUrl": "https://github.com/mao-test-h/MetalPerfKit-Unity/releases",
+  "licensesUrl": "https://github.com/mao-test-h/MetalPerfKit-Unity/blob/main/LICENSE"
+}
