@@ -50,8 +50,8 @@ namespace MetalPerfKit.Editor
         // Metal Performance HUD の環境変数を設定
         private static void SetEnvironmentVariables(string outputPath)
         {
-            const string settingsAssetPath = "Packages/jp.mao-test-h.metal-perfkit-unity/Editor/MetalPerfKit_LaunchEnvironment.asset";
-            var settings = AssetDatabase.LoadAssetAtPath<LaunchEnvironment>(settingsAssetPath);
+            // Assets 以下にある `MetalPerfKit_LaunchEnvironment.asset` というファイルを探して読み込む
+            var settings = FindLaunchEnvironmentAsset();
             if (settings == null)
             {
                 Debug.Log("[MetalPerformanceHUD] Settings asset not found. Skipping environment variables setup.");
@@ -111,6 +111,24 @@ namespace MetalPerfKit.Editor
             }
 
             xcScheme.WriteToFile(schemePath);
+        }
+
+        // LaunchEnvironment アセットを Assets フォルダ以下から検索
+        private static LaunchEnvironment FindLaunchEnvironmentAsset()
+        {
+            var guids = AssetDatabase.FindAssets($"t:{nameof(LaunchEnvironment)}");
+            if (guids.Length == 0)
+            {
+                return null;
+            }
+
+            if (guids.Length > 1)
+            {
+                Debug.LogWarning($"[MetalPerformanceHUD] Multiple LaunchEnvironment assets found. Using the first one.");
+            }
+
+            var assetPath = AssetDatabase.GUIDToAssetPath(guids[0]);
+            return AssetDatabase.LoadAssetAtPath<LaunchEnvironment>(assetPath);
         }
     }
 }
