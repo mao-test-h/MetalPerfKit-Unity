@@ -4,5 +4,9 @@
   "version": "1.0.0",
   "unity": "2022.3",
   "keywords": ["iOS"],
-  "license": "MIT"
+  "license": "MIT",
+  "author": {
+    "name": "mao-test-h",
+    "url": "https://github.com/mao-test-h"
+  }
 }
