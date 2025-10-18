@@ -1,39 +1,37 @@
 # MetalPerfKit-Unity
 
-A Unity package for utilizing Metal Performance HUD in Unity for iOS environments.
+Unity for iOS 環境で Metal Performance HUD を利用するためのパッケージです。
 
 <img width="1280" src="https://github.com/user-attachments/assets/a513b2ce-71b7-4921-8ddc-f423a4337e00" />
 
-[日本語版はこちら / Japanese version](./README-JP.md)
+## 概要
 
-## Overview
+このパッケージは、Unity で iOS アプリをビルドする際に Metal のパフォーマンス分析機能を活用できるようにします。
 
-This package enables you to leverage Metal's performance analysis features when building iOS apps with Unity.
+主な機能:
+- Metal Performance HUD の表示制御
+- パフォーマンスログの取得と保存
+- Xcode ビルド時の Metal 環境変数の設定
 
-Key features:
-- Control visibility and position of Metal Performance HUD
-- Capture and save performance logs
-- Configure Metal environment variables during Xcode build
-
-## Requirements
+## 動作環境
 
 - Unity 2022.3+
 - iOS 16+
 
-## Installation (WIP)
+## インストール (WIP)
 
-Install via Unity Package Manager.
+Unity Package Manager からインストールしてください。
 
-1. Open your project in Unity Editor
-2. Select Window > Package Manager
-3. Click the "+" button
-4. Select "Add package from git URL..." and enter the following URL
+1. Unity エディタでプロジェクトを開く
+2. Window > Package Manager を選択
+3. "+" ボタンをクリック
+4. "Add package from git URL..." から以下の URL を入力
 
 ```
 https://github.com/mao-test-h/MetalPerfKit-Unity.git?path=Packages/jp.mao-test-h.metal-perfkit-unity
 ```
 
-Or add the following to your `Packages/manifest.json`:
+または、`Packages/manifest.json` に以下を追加:
 
 ```json
 {
@@ -43,29 +41,29 @@ Or add the following to your `Packages/manifest.json`:
 }
 ```
 
-## Features
+## 機能
 
 ### 1. PerformanceHUDSwitcher
 
-Controls the visibility and position of the Metal Performance HUD.
+Metal Performance HUD の表示/非表示や位置を制御します。
 
 #### API
 
 ```csharp
-// Get the visibility state of the HUD
+// HUD の表示状態を取得
 bool GetPerformanceHUDVisible()
 
-// Get the HUD position (relative position from 0.0 to 1.0)
+// HUD の位置を取得（0.0 ～ 1.0 の相対位置）
 Vector2 GetPerformanceHUDPosition()
 
-// Set the HUD visibility
+// HUD の表示/非表示を設定
 void SetPerformanceHUDVisible(bool visible)
 
-// Set both HUD visibility and position
+// HUD の表示/非表示と位置を同時に設定
 void SetPerformanceHUDVisible(bool visible, float x, float y)
 ```
 
-#### Example Usage
+#### 使用例
 
 ```csharp
 using MetalPerfKit;
@@ -75,13 +73,13 @@ public class Example : MonoBehaviour
 {
     void Start()
     {
-        // Show the HUD
+        // HUD を表示
         PerformanceHUDSwitcher.SetPerformanceHUDVisible(true);
 
-        // Show the HUD at the top-right corner (x=1.0, y=0.0)
+        // HUD を画面の右上 (x=1.0, y=0.0) に表示
         PerformanceHUDSwitcher.SetPerformanceHUDVisible(true, 1.0f, 0.0f);
 
-        // Check current state
+        // 現在の状態を確認
         bool isVisible = PerformanceHUDSwitcher.GetPerformanceHUDVisible();
         Vector2 position = PerformanceHUDSwitcher.GetPerformanceHUDPosition();
         Debug.Log($"HUD: {isVisible}, Position: {position}");
@@ -91,22 +89,22 @@ public class Example : MonoBehaviour
 
 ### 2. PerformanceLogger
 
-Captures Metal Performance HUD logs and saves them to a file.
+Metal Performance HUD のログを取得してファイルに保存します。
 
 #### API
 
 ```csharp
-// Get logging status
+// ロギング状態を取得
 bool EnabledPerformanceLogging()
 
-// Enable/disable logging
+// ロギングを有効/無効にする
 void SetPerformanceLogging(bool enabled)
 
-// Fetch logs and save to file
+// ログを取得してファイルに保存
 bool FetchPerformanceLogs(int pastSeconds, string savePath)
 ```
 
-#### Example Usage
+#### 使用例
 
 ```csharp
 using MetalPerfKit;
@@ -117,14 +115,14 @@ public class Example : MonoBehaviour
 {
     void Start()
     {
-        // Enable logging
+        // ロギングを有効化
         PerformanceLogger.SetPerformanceLogging(true);
     }
 
     void OnApplicationQuit()
     {
-        // Fetch logs from the past 60 seconds and save
-        // Use FileUtility to generate a filename with device information
+        // 過去60秒分のログを取得して保存
+        // FileUtility を使用してデバイス情報を含むファイル名を生成
         string filePath = FileUtility.GenerateFetchLoggingFilePath();
         bool success = PerformanceLogger.FetchPerformanceLogs(60, filePath);
 
@@ -136,45 +134,45 @@ public class Example : MonoBehaviour
 }
 ```
 
-### 3. LaunchEnvironment (Editor Extension)
+### 3. LaunchEnvironment (Editor 拡張)
 
-Sets Metal-related environment variables during Xcode build.
+Xcode ビルド時に Metal 関連の環境変数を設定します。
 
-#### Supported Environment Variables
+#### 対応している環境変数
 
-- `MTL_HUD_OPACITY`: HUD opacity (0.0 to 1.0)
-- `MTL_HUD_SCALE`: HUD scale (0.0 to 1.0)
-- `MTL_HUD_ALIGNMENT`: HUD alignment position
+- `MTL_HUD_OPACITY`: HUD の不透明度 (0.0 ～ 1.0)
+- `MTL_HUD_SCALE`: HUD のスケール (0.0 ～ 1.0)
+- `MTL_HUD_ALIGNMENT`: HUD の配置位置
   - topleft, topcenter, topright
   - centerleft, centered, centerright
   - bottomleft, bottomcenter, bottomright
-- `MTL_HUD_INSIGHTS_ENABLED`: Enable Metal Insights
-- `MTL_HUD_INSIGHT_TIMEOUT`: Insights timeout duration
-- `MTL_HUD_INSIGHT_REPORT_INTERVAL`: Insights report interval
+- `MTL_HUD_INSIGHTS_ENABLED`: Metal Insights の有効化
+- `MTL_HUD_INSIGHT_TIMEOUT`: Insights のタイムアウト時間
+- `MTL_HUD_INSIGHT_REPORT_INTERVAL`: Insights のレポート間隔
 
-#### Usage
+#### 使用方法
 
-1. Create a settings file in `Assets/Settings` or similar location
-   - Right-click > Create > MetalPerfKit > Launch Environment
-2. Configure environment variables in the Inspector
-3. Variables are automatically applied to the Xcode project during build
+1. `Assets/Settings` などに設定ファイルを作成
+   - 右クリック > Create > MetalPerfKit > Launch Environment
+2. Inspector で環境変数を設定
+3. ビルド時に自動的に Xcode プロジェクトに反映されます
 
-## Samples
+## サンプル
 
-Sample scenes are included in `Assets/_Example/`.
+サンプルシーンは `Assets/_Example/` に含まれています。
 
-- `ExampleApplication.cs`: Implementation examples for HUD control and log capture
-- UI operation examples
+- `ExampleApplication.cs`: HUD の制御とログ取得の実装例
+- UI からの操作例
 
-## Platform Support
+## プラットフォーム対応
 
-On platforms other than iOS, all APIs are dummy implementations that complete successfully without performing any operations.
+iOS 以外のプラットフォームでは、すべての API は何もせずに正常終了します（ダミー実装）。
 
-## License
+## ライセンス
 
 MIT License
 
-## Documentation
+## ドキュメント
 
 - [Monitoring your Metal app’s graphics performance](https://developer.apple.com/documentation/xcode/monitoring-your-metal-apps-graphics-performance)
 - [Customizing the Metal Performance HUD](https://developer.apple.com/documentation/xcode/customizing-metal-performance-hud)
