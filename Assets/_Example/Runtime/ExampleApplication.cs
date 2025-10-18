@@ -22,8 +22,6 @@ namespace _Example
         [SerializeField] private InputField pastSecondsInputField;
         [SerializeField] private Button shareFetchLogsButton;
 
-        [SerializeField] private Text captureSupportInfoText;
-
         private readonly INativeShare _nativeShare = NativeShareFactory.Create();
         private string _latestFetchLogFilePath;
 
@@ -33,18 +31,6 @@ namespace _Example
             SetupPerformanceHUDEvents();
             SetupPerformanceLoggingEvents();
             InitializePerformanceHUD();
-        }
-
-        private void Update()
-        {
-            captureSupportInfoText.text = GetSupportInfo();
-
-            static string GetSupportInfo()
-            {
-                var isGpuTrace = FrameCapture.IsDestinationSupported(FrameCaptureDestination.GPUTraceDocument);
-                var isDevTool = FrameCapture.IsDestinationSupported(FrameCaptureDestination.DevTools);
-                return $"[Supported]: DevTools: {isDevTool}, GPUTrace: {isGpuTrace}";
-            }
         }
 
         private void InitializePerformanceHUD()
