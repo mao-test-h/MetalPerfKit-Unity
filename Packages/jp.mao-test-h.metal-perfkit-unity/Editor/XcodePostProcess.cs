@@ -18,12 +18,13 @@ namespace MetalPerfKit.Editor
         {
             if (target != BuildTarget.iOS) return;
 
-            EnablingPerformanceHUD(xcodeprojPath);
+            EnablingPerformanceHUD4Scheme(xcodeprojPath);
+            EnablePerformanceHUD4Plist(xcodeprojPath);
             SetEnvironmentVariables(xcodeprojPath);
         }
 
         // HUD の表示はデフォルトで有効化
-        private static void EnablingPerformanceHUD(string outputPath)
+        private static void EnablingPerformanceHUD4Scheme(string outputPath)
         {
             var schemePath = $"{outputPath}/Unity-iPhone.xcodeproj/xcshareddata/xcschemes/Unity-iPhone.xcscheme";
             var xcScheme = new XcScheme();
@@ -45,6 +46,16 @@ namespace MetalPerfKit.Editor
             //xElement.SetAttributeValue((XName)"logGraphicsOverview", "Yes");
 
             xcScheme.WriteToFile(schemePath);
+        }
+
+        private static void EnablePerformanceHUD4Plist(string outputPath)
+        {
+            var plistPath = Path.Combine(outputPath, "Info.plist");
+            var plist = new PlistDocument();
+            plist.ReadFromFile(plistPath);
+            var root = plist.root;
+            root.SetBoolean("MetalHudEnabled", true);
+            plist.WriteToFile(plistPath);
         }
 
         // Metal Performance HUD の環境変数を設定
