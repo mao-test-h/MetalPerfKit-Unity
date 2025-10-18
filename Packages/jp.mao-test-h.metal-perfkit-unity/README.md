@@ -23,15 +23,18 @@ Unity Package Manager からインストールしてください。
 1. Unity エディタでプロジェクトを開く
 2. Window > Package Manager を選択
 3. "+" ボタンをクリック
-4. "Add package from disk..." を選択
-5. `Packages/jp.mao-test-h.metal-perfkit-unity/package.json` を選択
+4. "Add package from git URL..." から以下の URL を入力
+
+```
+https://github.com/mao-test-h/MetalPerfKit-Unity.git?path=Packages/jp.mao-test-h.metal-perfkit-unity
+```
 
 または、`Packages/manifest.json` に以下を追加:
 
 ```json
 {
   "dependencies": {
-    "jp.mao-test-h.metal-perfkit-unity": "file:../Packages/jp.mao-test-h.metal-perfkit-unity"
+    "jp.mao-test-h.metal-perfkit-unity": "https://github.com/mao-test-h/MetalPerfKit-Unity.git?path=Packages/jp.mao-test-h.metal-perfkit-unity",
   }
 }
 ```
