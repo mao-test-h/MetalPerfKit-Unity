@@ -7,5 +7,9 @@
   "license": "MIT",
   "documentationUrl": "https://github.com/mao-test-h/MetalPerfKit-Unity",
   "changelogUrl": "https://github.com/mao-test-h/MetalPerfKit-Unity/releases",
-  "licensesUrl": "https://github.com/mao-test-h/MetalPerfKit-Unity/blob/main/LICENSE"
+  "licensesUrl": "https://github.com/mao-test-h/MetalPerfKit-Unity/blob/main/LICENSE",
+  "author": {
+    "name": "mao-test-h",
+    "url": "https://github.com/mao-test-h"
+  }
 }
