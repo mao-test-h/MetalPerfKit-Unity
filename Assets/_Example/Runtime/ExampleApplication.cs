@@ -155,7 +155,7 @@ namespace _Example
                         return;
                     }
 
-                    var filePath = GetFilePath();
+                    var filePath = FileUtility.GenerateFetchLoggingFilePath();
                     if (!File.Exists(filePath))
                     {
                         File.Create(filePath);
@@ -191,14 +191,6 @@ namespace _Example
 
                 _nativeShare.ShareFile(_latestFetchLogFilePath);
             });
-
-            static string GetFilePath()
-            {
-                var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                var fileName = $"FetchLogging_{timestamp}.txt";
-                var filePath = Path.Combine(Application.persistentDataPath, fileName);
-                return filePath;
-            }
         }
     }
 }
