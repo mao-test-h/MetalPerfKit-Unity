@@ -1,5 +1,9 @@
 # MetalPerfKit-Unity
 
+![Unity](https://img.shields.io/badge/Unity-2022.3%2B-black?logo=unity)
+![iOS](https://img.shields.io/badge/iOS-16.0%2B-000000?logo=apple)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+
 Unity for iOS 環境で Metal Performance HUD を利用するためのパッケージです。
 
 <img width="1280" src="https://github.com/user-attachments/assets/a513b2ce-71b7-4921-8ddc-f423a4337e00" />
