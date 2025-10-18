@@ -4,7 +4,7 @@ A Unity package for utilizing Metal Performance HUD in Unity for iOS environment
 
 <img width="1280" src="https://github.com/user-attachments/assets/a513b2ce-71b7-4921-8ddc-f423a4337e00" />
 
-[日本語版はこちら / Japanese version](./README-JP.md)
+[日本語版 README はこちら](./README-JP.md)
 
 ## Overview
 
