@@ -30,6 +30,11 @@ private func getMetalLayer() -> CAMetalLayer? {
 }
 
 private func getCurrentProperties() -> [String: Any] {
+    guard #available(iOS 16.0, *) else {
+        print("On iOS < 16  Metal Performance HUD is unavailable.")
+        return [:]
+    }
+    
     guard let metalLayer = getMetalLayer(),
           let currentProperties = metalLayer.developerHUDProperties else {
         // NOTE: 設定アプリやスキーム側の設定問わず、初期状態は確実に nil が入っているっぽいので、一旦は空の状態で渡すようにする
@@ -40,6 +45,11 @@ private func getCurrentProperties() -> [String: Any] {
 }
 
 private func updateProperties(_ updates: [String: Any]) {
+    guard #available(iOS 16.0, *) else {
+        print("On iOS < 16  Metal Performance HUD is unavailable.")
+        return
+    }
+    
     guard let metalLayer = getMetalLayer() else {
         return
     }
@@ -54,6 +64,11 @@ private func updateProperties(_ updates: [String: Any]) {
 }
 
 private func removeProperties(_ keys: [String]) {
+    guard #available(iOS 16.0, *) else {
+        print("On iOS < 16  Metal Performance HUD is unavailable.")
+        return
+    }
+    
     guard let metalLayer = getMetalLayer() else {
         return
     }
