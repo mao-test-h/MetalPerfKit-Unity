@@ -170,9 +170,3 @@ iOS 以外のプラットフォームでは、すべての API は何もせず�
 
 MIT License
 
-詳細は [LICENSE](https://github.com/mao-test-h/MetalPerfKit-Unity/blob/main/LICENSE) を参照してください。
-
-## リンク
-
-- [リポジトリ](https://github.com/mao-test-h/MetalPerfKit-Unity)
-- [リリースノート](https://github.com/mao-test-h/MetalPerfKit-Unity/releases)
