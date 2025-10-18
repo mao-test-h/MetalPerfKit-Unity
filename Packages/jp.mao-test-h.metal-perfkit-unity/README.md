@@ -166,10 +166,6 @@ Sample scenes are included in `Assets/_Example/`.
 - `ExampleApplication.cs`: Implementation examples for HUD control and log capture
 - UI operation examples
 
-## Platform Support
-
-On platforms other than iOS, all APIs are dummy implementations that complete successfully without performing any operations.
-
 ## License
 
 MIT License
