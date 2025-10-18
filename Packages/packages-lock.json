@@ -154,6 +154,12 @@
       },
       "url": "https://packages.unity.com"
     },
+    "jp.mao-test-h.ios-utility": {
+      "version": "file:jp.mao-test-h.ios-utility",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "jp.mao-test-h.metal-perfkit-unity": {
       "version": "file:jp.mao-test-h.metal-perfkit-unity",
       "depth": 0,
