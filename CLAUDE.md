@@ -14,11 +14,23 @@
 
 ### プロジェクト構造
 
-- **Assets**
-  - **_Example/**  : プラグインの実装例
-    - **Runtime/**        : 実行時コード (.cs)
-    - **Scenes/**         : シーンファイル
-    - **Settings/**       : Input Systemなどの設定ファイル
+```
+Assets/_Example/              # プラグインの実装例
+├── Runtime/                  # ランタイムコード (.cs, .asmdef)
+├── Scenes/                   # シーンファイル
+├── Settings/                 # 各種設定ファイル
+│
+
+# プラグイン本体
+Packages/jp.mao-test-h.metal-perfkit-unity/
+├── Runtime/                  # ランタイムコード (.cs, .asmdef)
+│   ├── Internal/             # internal コード
+│   └── *                     # public コード
+├── Editor/                   # Editor 拡張 (.cs, .asmdef)
+├── Plugins/                  # ネイティブプラグイン
+│   └── iOS/                  # iOS (.swift, .mm)
+└── package.json
+```
 
 ------------------------------
 
