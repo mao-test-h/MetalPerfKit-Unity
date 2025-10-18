@@ -120,7 +120,8 @@ public class Example : MonoBehaviour
     void OnApplicationQuit()
     {
         // 過去60秒分のログを取得して保存
-        string filePath = Path.Combine(Application.persistentDataPath, "performance_log.txt");
+        // FileUtility を使用してデバイス情報を含むファイル名を生成
+        string filePath = FileUtility.GenerateFetchLoggingFilePath();
         bool success = PerformanceLogger.FetchPerformanceLogs(60, filePath);
 
         if (success)
