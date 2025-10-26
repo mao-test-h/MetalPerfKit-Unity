@@ -244,30 +244,26 @@ public func MetalPerfKit_FetchLogs(_ pastSeconds: Int32, _ savePath: UnsafePoint
     
     let savePathString = String(cString: savePath)
     
-    // iOS 15.0 以降で OSLogStore が利用可能
     if #available(iOS 15.0, *) {
         do {
             let logStore = try OSLogStore(scope: .currentProcessIdentifier)
             
-            // 取得する時間範囲を設定
-            let endDate = Date()
-            let startDate = endDate.addingTimeInterval(-TimeInterval(pastSeconds))
-            let position = logStore.position(date: startDate)
-            let predicate = NSPredicate(format: "composedMessage BEGINSWITH 'metal-HUD:'")
-            let entries = try logStore.getEntries(at: position, matching: predicate)
+            let date = Date()
+            let pastDate = date.addingTimeInterval(-TimeInterval(pastSeconds))
+            let position = logStore.position(date: date)
             
-            // "metal-HUD:"で始まるログをフィルタリングし、重複を除去
+            // "metal-HUD:"で始まるログをフィルタリング
+            let predicate = NSPredicate(format: "composedMessage BEGINSWITH 'metal-HUD:'")
+            let entries = try logStore.getEntries(with: .reverse, at: position, matching: predicate)
+                .filter { entry in
+                    return entry.date >= pastDate && entry.date <= date
+                }
+           
+            // NOTE: フレーム番号が重複するケースがあるので取り除く
             var seenFrameNumbers = Set<String>()
             var logLines: [String] = []
             for entry in entries {
-                // 時間範囲チェック
-                if entry.date > endDate {
-                    break
-                }
-                
-                // composedMessage を取得（すでに"metal-HUD:"で始まるログのみ）
                 let message = entry.composedMessage
-                
                 // フレーム番号を抽出（最初のカンマまでの数値）
                 let afterPrefix = message.dropFirst("metal-HUD:".count).trimmingCharacters(in: .whitespaces)
                 if let firstCommaIndex = afterPrefix.firstIndex(of: ",") {
@@ -281,10 +277,8 @@ public func MetalPerfKit_FetchLogs(_ pastSeconds: Int32, _ savePath: UnsafePoint
                 }
             }
             
-            // ファイルに書き込み
             let logContent = logLines.joined(separator: "\n")
             let fileURL = URL(fileURLWithPath: savePathString)
-            
             try logContent.write(to: fileURL, atomically: true, encoding: .utf8)
             
             print("[MetalPerfKit] Successfully fetched \(logLines.count) log entries to \(savePathString)")
