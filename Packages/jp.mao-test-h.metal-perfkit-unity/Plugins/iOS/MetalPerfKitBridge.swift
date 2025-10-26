@@ -258,7 +258,7 @@ public func MetalPerfKit_FetchLogs(_ pastSeconds: Int32, _ savePath: UnsafePoint
                 .filter { entry in
                     return entry.date >= pastDate && entry.date <= date
                 }
-           
+            
             // NOTE: フレーム番号が重複するケースがあるので取り除く
             var seenFrameNumbers = Set<String>()
             var logLines: [String] = []
@@ -272,6 +272,7 @@ public func MetalPerfKit_FetchLogs(_ pastSeconds: Int32, _ savePath: UnsafePoint
                     // 重複チェック
                     if !seenFrameNumbers.contains(frameNumber) {
                         seenFrameNumbers.insert(frameNumber)
+                        //logLines.append("\(entry.date): \(message)")
                         logLines.append(message)
                     }
                 }
