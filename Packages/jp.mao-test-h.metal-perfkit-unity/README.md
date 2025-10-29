@@ -125,7 +125,7 @@ public class Example : MonoBehaviour
         PerformanceLogger.SetPerformanceLogging(true);
     }
 
-    void OnApplicationQuit()
+    void FetchPerformanceLogs()
     {
         // Fetch logs from the past 60 seconds and save
         // Use FileUtility to generate a filename with device information

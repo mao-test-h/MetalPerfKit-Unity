@@ -123,7 +123,7 @@ public class Example : MonoBehaviour
         PerformanceLogger.SetPerformanceLogging(true);
     }
 
-    void OnApplicationQuit()
+    void FetchPerformanceLogs()
     {
         // 過去60秒分のログを取得して保存
         // FileUtility を使用してデバイス情報を含むファイル名を生成
