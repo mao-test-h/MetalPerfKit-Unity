@@ -1,7 +1,7 @@
 {
   "name": "jp.mao-test-h.metal-perfkit-unity",
   "displayName": "MetalPerfKit-Unity",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "unity": "2022.3",
   "keywords": ["iOS", "Performance"],
   "license": "MIT",
