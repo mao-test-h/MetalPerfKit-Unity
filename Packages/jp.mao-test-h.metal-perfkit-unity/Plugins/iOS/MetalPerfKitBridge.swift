@@ -11,18 +11,10 @@ public enum MPHStatus: Int32 {
 
 // MARK: - Helper Functions
 
-private func getRootview() -> UIView? {
-    guard let instance = UnityFramework.getInstance(),
-          let rootView = instance.appController().rootView else {
-        return nil
-    }
-    
-    return rootView
-}
-
 private func getMetalLayer() -> CAMetalLayer? {
-    guard let view = getRootview(),
-          let metalLayer = view.layer as? CAMetalLayer else {
+    guard let instance = UnityFramework.getInstance(),
+          let rootView = instance.appController().rootView,
+          let metalLayer = rootView.layer as? CAMetalLayer else {
         return nil
     }
     
@@ -83,15 +75,11 @@ private func removeProperties(_ keys: [String]) {
 }
 
 private func getReferenceSize() -> CGSize {
-    guard let metalLayer = getMetalLayer(),
-          let rootView = getRootview() else {
+    guard let metalLayer = getMetalLayer() else {
         preconditionFailure()
     }
     
-    // 使用するサイズを決定（MetalLayerのboundsが有効ならそれを、そうでなければrootViewのサイズを使用）
-    let layerBounds = metalLayer.bounds
-    let viewSize = rootView.bounds.size
-    return (layerBounds.width > 0 && layerBounds.height > 0) ? layerBounds.size : viewSize
+    return metalLayer.bounds.size
 }
 
 private func normalizedToAbsolute(x normalizedX: Float, y normalizedY: Float) -> (x: Float, y: Float) {
