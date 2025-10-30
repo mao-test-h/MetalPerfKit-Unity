@@ -22,14 +22,20 @@ namespace _Example
         [SerializeField] private InputField pastSecondsInputField;
         [SerializeField] private Button shareFetchLogsButton;
 
+        [SerializeField] private Text resolutionText;
+        [SerializeField] private RectTransform resolutionButtonNode;
+        [SerializeField] private Button resetResolutionButton;
+
         private readonly INativeShare _nativeShare = NativeShareFactory.Create();
         private string _latestFetchLogFilePath;
+        private Resolution _originalResolution;
 
         private void Start()
         {
             SetupCommonEvents();
             SetupPerformanceHUDEvents();
             SetupPerformanceLoggingEvents();
+            SetupResolutionEvent();
             InitializePerformanceHUD();
         }
 
@@ -191,6 +197,56 @@ namespace _Example
 
                 _nativeShare.ShareFile(_latestFetchLogFilePath);
             });
+        }
+
+        private void SetupResolutionEvent()
+        {
+            _originalResolution = Screen.currentResolution;
+            resolutionText.text = $"Resolution ({_originalResolution.width} x {_originalResolution.height})";
+
+            // 解像度のリスト (width)
+            var resolutions = new[]
+            {
+                270,
+                540,
+                720,
+                1080,
+            };
+
+            foreach (var width in resolutions)
+            {
+                var resolution = CalcResolution(width);
+                var button = Instantiate(resetResolutionButton, resolutionButtonNode);
+                button.GetComponentInChildren<Text>().text = $"{resolution.width}p";
+                AddListener(resolution.width, resolution.height, button);
+            }
+
+            AddListener(_originalResolution.width, _originalResolution.height, resetResolutionButton);
+            return;
+
+            void AddListener(int width, int height, Button button)
+            {
+                button.onClick.AddListener(() =>
+                {
+                    resolutionText.text = $"Resolution ({width} x {height})";
+                    Screen.SetResolution(width, height, true);
+
+                    if (performanceHUDWithPositionToggle.isOn)
+                    {
+                        var x = performanceHUDPositionXSlider.value;
+                        var y = performanceHUDPositionYSlider.value;
+                        PerformanceHUDSwitcher.SetPerformanceHUDVisible(true, x, y);
+                    }
+                });
+            }
+
+            // width から height を計算し、解像度を返す
+            (int width, int height) CalcResolution(int width)
+            {
+                var aspectRatio = (float)_originalResolution.height / _originalResolution.width;
+                var newHeight = (int)(width * aspectRatio);
+                return (width, newHeight);
+            }
         }
     }
 }
