@@ -443,19 +443,19 @@ public EnvironmentVariable ReportUrl;            // MTL_HUD_REPORT_URL
 
 ### Phase 1: Enum 定義
 
-- [ ] `Runtime/Enums/HudAlignment.cs` の作成
-  - [ ] 9種類の位置を定義（TopLeft, TopCenter, TopRight, CenterLeft, Centered, CenterRight, BottomLeft, BottomCenter, BottomRight）
-  - [ ] namespace と public アクセス修飾子の設定
-  - [ ] XML ドキュメントコメントの追加
+- [x] `Runtime/Enums/HudAlignment.cs` の作成
+  - [x] 9種類の位置を定義（TopLeft, TopCenter, TopRight, CenterLeft, Centered, CenterRight, BottomLeft, BottomCenter, BottomRight）
+  - [x] namespace と public アクセス修飾子の設定
+  - [x] XML ドキュメントコメントの追加
 
-- [ ] `Runtime/Enums/MetricElements.cs` の作成
-  - [ ] [Flags] 属性の追加
-  - [ ] 20種類のメトリクスを定義（Device, Rosetta, LayerSize, LayerScale, Memory, Fps, FrameInterval, GpuTime, Thermal, FrameIntervalGraph, PresentDelay, FrameIntervalHistogram, MetalCpu, GpuTimeline, Shaders, FrameNumber, Disk, FpsGraph, TopLabeledCommandBuffers, TopLabeledEncoders）
-  - [ ] None = 0 と All = ~0 の定義
-  - [ ] namespace と public アクセス修飾子の設定
-  - [ ] XML ドキュメントコメントの追加
+- [x] `Runtime/Enums/MetricElements.cs` の作成
+  - [x] [Flags] 属性の追加
+  - [x] 20種類のメトリクスを定義（Device, Rosetta, LayerSize, LayerScale, Memory, Fps, FrameInterval, GpuTime, Thermal, FrameIntervalGraph, PresentDelay, FrameIntervalHistogram, MetalCpu, GpuTimeline, Shaders, FrameNumber, Disk, FpsGraph, TopLabeledCommandBuffers, TopLabeledEncoders）
+  - [x] None = 0 と All = ~0 の定義
+  - [x] namespace と public アクセス修飾子の設定
+  - [x] XML ドキュメントコメントの追加
 
-- [ ] `Runtime/jp.mao-test-h.metal-perfkit-unity.asmdef` への参照追加（必要に応じて）
+- [x] `Runtime/jp.mao-test-h.metal-perfkit-unity.asmdef` への参照追加（必要に応じて）
 
 ---
 
