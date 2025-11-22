@@ -1,8 +1,89 @@
 {
-  "permissions": {
-    "allow": [],
-    "deny": [],
-    "ask": []
-  },
-  "includeCoAuthoredBy": false
+    "cleanupPeriodDays": 30,
+    "includeCoAuthoredBy": false,
+    "outputStyle": "default",
+    "permissions": {
+        "allow": [
+            "Bash(find:*)",
+            "Bash(mkdir:*)",
+            "Bash(mv:*)",
+            "Bash(ls:*)",
+            "Bash(rg:*)",
+            "Bash(git add:*)",
+            "Bash(git branch:*)",
+            "Bash(git checkout:*)",
+            "Bash(git commit:*)",
+            "Bash(git fetch:*)",
+            "Bash(git ls-tree:*)",
+            "Bash(git pull:*)",
+            "Bash(git push:*)",
+            "Bash(git rev-parse:*)",
+            "Bash(git log:*)",
+            "Bash(git show:*)",
+            "Bash(git diff:*)",
+            "Bash(git status:*)",
+            "Bash(git stash list:*)",
+            "Bash(gh pr create:*)",
+            "Bash(gh pr edit:*)",
+            "Bash(gh pr list:*)",
+            "Bash(gh pr view:*)"
+        ],
+        "deny": [
+            "Bash(sudo:*)",
+            "Bash(rm:*)",
+            "Bash(rm -rf:*)",
+            "Bash(curl:*)",
+            "Bash(wget:*)",
+            "Bash(chmod:*)",
+            "Bash(chown:*)",
+            "Bash(killall:*)",
+            "Bash(pkill:*)",
+            "Bash(xattr:*)",
+            "Bash(brew install:*)",
+            "Bash(npm install -g:*)",
+            "Bash(pip install:*)",
+            "Bash(git push -f:*)",
+            "Bash(git reset:*)",
+            "Bash(git rebase:*)",
+            "Bash(git commit --amend:*)",
+            "Bash(git clean:*)",
+            "Bash(git stash drop:*)",
+            "Bash(git stash clear:*)",
+            "Bash(git branch -D:*)",
+            "Bash(git tag -d:*)",
+            "Read(.env.*)",
+            "Read(**/*credentials*)",
+            "Read(**/*secret*)",
+            "Read(**/*apikey*)",
+            "Read(**/*token*)",
+            "Read(**/*.p12)",
+            "Read(**/*.keystore)",
+            "Read(**/*.mobileprovision)",
+            "WebFetch(domain:*)"
+        ]
+    },
+    "hooks": {
+        "Stop": [
+            {
+                "matcher": "*",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "osascript -e 'display notification \"Task completed\" with title \"Claude Code\" sound name \"Bip\"'"
+                    }
+                ]
+            }
+        ],
+        "Notification": [
+            {
+                "matcher": "*",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "osascript -e 'display notification \"Awaiting confirmation\" with title \"Claude Code\" sound name \"Bip\"'"
+                    }
+                ]
+            }
+        ]
+    }
 }
