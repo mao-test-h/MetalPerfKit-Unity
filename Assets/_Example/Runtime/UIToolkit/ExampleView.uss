@@ -1,1 +1,162 @@
-VisualElement {}
+/* Root Container */
+.root {
+    background-color: rgba(0, 0, 0, 0);
+    padding-top: 64px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    flex-grow: 1;
+}
+
+/* Section Spacing */
+.section {
+    margin-bottom: 20px;
+}
+
+/* Toggle Row - Horizontal Layout */
+.toggle-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.toggle {
+    margin-right: 15px;
+    margin-bottom: 10px;
+    min-height: 44px;
+    flex-direction: row-reverse;
+    margin: 0;
+}
+
+.toggle Label {
+    color: rgb(220, 220, 220);
+    font-size: 18px;
+    -unity-font-style: normal;
+    min-height: 44px;
+}
+
+.toggle .unity-toggle__input {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+}
+
+.toggle .unity-toggle__checkmark {
+    width: 64px;
+    height: 64;
+}
+
+/* Slider Section */
+.slider-section {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.slider-container {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.slider-label {
+    color: rgb(220, 220, 220);
+    font-size: 18px;
+    font-weight: bold;
+    width: 40px;
+    height: 40px;
+    -unity-text-align: middle-center;
+    background-color: rgb(45, 55, 65);
+    border-radius: 20px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.slider {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 44px;
+    min-width: 0;
+}
+
+/* Log Row - Horizontal Layout */
+.log-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.log-count {
+    background-color: rgb(100, 200, 100);
+    color: rgb(30, 30, 30);
+    font-size: 24px;
+    font-weight: bold;
+    -unity-text-align: middle-center;
+    padding: 10px 20px;
+    border-radius: 5px;
+    min-width: 50px;
+    min-height: 44px;
+}
+
+/* Buttons */
+.button {
+    background-color: rgb(200, 200, 200);
+    color: rgb(30, 30, 30);
+    font-size: 14px;
+    border-radius: 5px;
+    border-width: 0;
+    padding: 10px 15px;
+    min-height: 44px;
+    min-width: 80px;
+    -unity-text-align: middle-center;
+}
+
+.button:hover {
+    background-color: rgb(220, 220, 220);
+}
+
+.button:active {
+    background-color: rgb(180, 180, 180);
+}
+
+.button-action {
+    background-color: rgb(80, 200, 200);
+    color: rgb(255, 255, 255);
+}
+
+.button-action:hover {
+    background-color: rgb(100, 220, 220);
+}
+
+.button-action:active {
+    background-color: rgb(60, 180, 180);
+}
+
+/* Resolution Section */
+.resolution-label {
+    color: rgb(220, 220, 220);
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.resolution-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.resolution-button {
+    min-width: 100px;
+}
+
+.resolution-button-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Hidden Elements */
+.hidden {
+    display: none;
+}

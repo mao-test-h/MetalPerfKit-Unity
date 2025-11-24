@@ -3,11 +3,7 @@ using System.IO;
 using iOSUtility.NativeShare;
 using MetalPerfKit;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.UIElements;
-using Button = UnityEngine.UI.Button;
-using Slider = UnityEngine.UI.Slider;
-using Toggle = UnityEngine.UI.Toggle;
 
 namespace _Example
 {
@@ -15,27 +11,29 @@ namespace _Example
     {
         [SerializeField] private UIDocument uiDocument;
 
-        [SerializeField] private Toggle performanceHUDToggle;
-        [SerializeField] private Toggle performanceHUDWithPositionToggle;
-        [SerializeField] private Toggle switch60FPSToggle;
+        private Toggle _performanceHUDToggle;
+        private Toggle _performanceHUDWithPositionToggle;
+        private Toggle _switch60FPSToggle;
 
-        [SerializeField] private Slider performanceHUDPositionXSlider;
-        [SerializeField] private Slider performanceHUDPositionYSlider;
+        private Slider _performanceHUDPositionXSlider;
+        private Slider _performanceHUDPositionYSlider;
 
-        [SerializeField] private Toggle performanceLoggingToggle;
-        [SerializeField] private Button fetchLogsButton;
-        [SerializeField] private InputField pastSecondsInputField;
-        [SerializeField] private Button shareFetchLogsButton;
+        private Toggle _performanceLoggingToggle;
+        private Button _fetchLogsButton;
+        private IntegerField _pastSecondsInputField;
+        private Button _shareFetchLogsButton;
+        private Label _logCountLabel;
 
-        [SerializeField] private Text resolutionText;
-        [SerializeField] private RectTransform resolutionButtonNode;
-        [SerializeField] private Button resetResolutionButton;
+        private Label _resolutionText;
+        private VisualElement _resolutionButtonContainer;
+        private Button _resetResolutionButton;
 
         private string _latestFetchLogFilePath;
         private Resolution _originalResolution;
 
         private void Start()
         {
+            InitializeUIElements();
             SetupCommonEvents();
             SetupPerformanceHUDEvents();
             SetupPerformanceLoggingEvents();
@@ -43,10 +41,32 @@ namespace _Example
             InitializePerformanceHUD();
         }
 
+        private void InitializeUIElements()
+        {
+            var root = uiDocument.rootVisualElement;
+
+            _performanceHUDToggle = root.Q<Toggle>("performance-hud-toggle");
+            _performanceHUDWithPositionToggle = root.Q<Toggle>("performance-hud-with-position-toggle");
+            _switch60FPSToggle = root.Q<Toggle>("switch-60fps-toggle");
+
+            _performanceHUDPositionXSlider = root.Q<Slider>("performance-hud-position-x-slider");
+            _performanceHUDPositionYSlider = root.Q<Slider>("performance-hud-position-y-slider");
+
+            _performanceLoggingToggle = root.Q<Toggle>("performance-logging-toggle");
+            _fetchLogsButton = root.Q<Button>("fetch-logs-button");
+            _pastSecondsInputField = root.Q<IntegerField>("past-seconds-input");
+            _shareFetchLogsButton = root.Q<Button>("share-fetch-logs-button");
+            _logCountLabel = root.Q<Label>("log-count-label");
+
+            _resolutionText = root.Q<Label>("resolution-text");
+            _resolutionButtonContainer = root.Q<VisualElement>("resolution-button-container");
+            _resetResolutionButton = root.Q<Button>("reset-resolution-button");
+        }
+
         private void InitializePerformanceHUD()
         {
-            performanceHUDToggle.SetIsOnWithoutNotify(true);
-            performanceLoggingToggle.SetIsOnWithoutNotify(false);
+            _performanceHUDToggle.SetValueWithoutNotify(true);
+            _performanceLoggingToggle.SetValueWithoutNotify(false);
 
             try
             {
@@ -61,21 +81,21 @@ namespace _Example
             {
                 Debug.LogException(ex);
 
-                performanceHUDToggle.SetIsOnWithoutNotify(false);
-                performanceHUDWithPositionToggle.SetIsOnWithoutNotify(false);
-                performanceLoggingToggle.SetIsOnWithoutNotify(false);
-                performanceHUDPositionXSlider.SetValueWithoutNotify(0f);
-                performanceHUDPositionYSlider.SetValueWithoutNotify(0f);
+                _performanceHUDToggle.SetValueWithoutNotify(false);
+                _performanceHUDWithPositionToggle.SetValueWithoutNotify(false);
+                _performanceLoggingToggle.SetValueWithoutNotify(false);
+                _performanceHUDPositionXSlider.SetValueWithoutNotify(0f);
+                _performanceHUDPositionYSlider.SetValueWithoutNotify(0f);
             }
         }
 
         private void SetupCommonEvents()
         {
-            switch60FPSToggle.onValueChanged.AddListener(isOn =>
+            _switch60FPSToggle.RegisterValueChangedCallback(evt =>
             {
                 try
                 {
-                    Application.targetFrameRate = isOn ? 60 : 30;
+                    Application.targetFrameRate = evt.newValue ? 60 : 30;
                 }
                 catch (Exception ex)
                 {
@@ -86,11 +106,11 @@ namespace _Example
 
         private void SetupPerformanceHUDEvents()
         {
-            performanceHUDToggle.onValueChanged.AddListener(isOn =>
+            _performanceHUDToggle.RegisterValueChangedCallback(evt =>
             {
                 try
                 {
-                    PerformanceHUDSwitcher.SetPerformanceHUDVisible(isOn);
+                    PerformanceHUDSwitcher.SetPerformanceHUDVisible(evt.newValue);
                 }
                 catch (Exception ex)
                 {
@@ -98,13 +118,13 @@ namespace _Example
                 }
             });
 
-            performanceHUDWithPositionToggle.onValueChanged.AddListener(isOn =>
+            _performanceHUDWithPositionToggle.RegisterValueChangedCallback(evt =>
             {
                 try
                 {
-                    var x = performanceHUDPositionXSlider.value;
-                    var y = performanceHUDPositionYSlider.value;
-                    PerformanceHUDSwitcher.SetPerformanceHUDVisible(isOn, x, y);
+                    var x = _performanceHUDPositionXSlider.value;
+                    var y = _performanceHUDPositionYSlider.value;
+                    PerformanceHUDSwitcher.SetPerformanceHUDVisible(evt.newValue, x, y);
                 }
                 catch (Exception ex)
                 {
@@ -112,13 +132,13 @@ namespace _Example
                 }
             });
 
-            performanceHUDPositionXSlider.onValueChanged.AddListener(x =>
+            _performanceHUDPositionXSlider.RegisterValueChangedCallback(evt =>
             {
                 try
                 {
-                    if (!performanceHUDWithPositionToggle.isOn) return;
-                    var y = performanceHUDPositionYSlider.value;
-                    PerformanceHUDSwitcher.SetPerformanceHUDVisible(true, x, y);
+                    if (!_performanceHUDWithPositionToggle.value) return;
+                    var y = _performanceHUDPositionYSlider.value;
+                    PerformanceHUDSwitcher.SetPerformanceHUDVisible(true, evt.newValue, y);
                 }
                 catch (Exception ex)
                 {
@@ -126,13 +146,13 @@ namespace _Example
                 }
             });
 
-            performanceHUDPositionYSlider.onValueChanged.AddListener(y =>
+            _performanceHUDPositionYSlider.RegisterValueChangedCallback(evt =>
             {
                 try
                 {
-                    if (!performanceHUDWithPositionToggle.isOn) return;
-                    var x = performanceHUDPositionXSlider.value;
-                    PerformanceHUDSwitcher.SetPerformanceHUDVisible(true, x, y);
+                    if (!_performanceHUDWithPositionToggle.value) return;
+                    var x = _performanceHUDPositionXSlider.value;
+                    PerformanceHUDSwitcher.SetPerformanceHUDVisible(true, x, evt.newValue);
                 }
                 catch (Exception ex)
                 {
@@ -143,11 +163,11 @@ namespace _Example
 
         private void SetupPerformanceLoggingEvents()
         {
-            performanceLoggingToggle.onValueChanged.AddListener(isOn =>
+            _performanceLoggingToggle.RegisterValueChangedCallback(evt =>
             {
                 try
                 {
-                    PerformanceLogger.SetPerformanceLogging(isOn);
+                    PerformanceLogger.SetPerformanceLogging(evt.newValue);
                 }
                 catch (Exception ex)
                 {
@@ -155,11 +175,12 @@ namespace _Example
                 }
             });
 
-            fetchLogsButton.onClick.AddListener(() =>
+            _fetchLogsButton.RegisterCallback<ClickEvent>(_ =>
             {
                 try
                 {
-                    if (!int.TryParse(pastSecondsInputField.text, out var seconds))
+                    var seconds = _pastSecondsInputField.value;
+                    if (seconds <= 0)
                     {
                         Debug.LogWarning($"Past seconds is {seconds}");
                         return;
@@ -168,7 +189,7 @@ namespace _Example
                     var filePath = FileUtility.GenerateFetchLoggingFilePath();
                     if (!File.Exists(filePath))
                     {
-                        File.Create(filePath);
+                        File.Create(filePath).Dispose();
                     }
 
                     var success = PerformanceLogger.FetchPerformanceLogs(seconds, filePath);
@@ -177,7 +198,11 @@ namespace _Example
                     if (success)
                     {
                         _latestFetchLogFilePath = filePath;
-                        shareFetchLogsButton.onClick.Invoke();
+                        _logCountLabel.text = seconds.ToString();
+                        // Trigger share button click
+                        using var clickEvent = ClickEvent.GetPooled();
+                        clickEvent.target = _shareFetchLogsButton;
+                        _shareFetchLogsButton.SendEvent(clickEvent);
                     }
                     else
                     {
@@ -191,7 +216,7 @@ namespace _Example
                 }
             });
 
-            shareFetchLogsButton.onClick.AddListener(() =>
+            _shareFetchLogsButton.RegisterCallback<ClickEvent>(_ =>
             {
                 if (string.IsNullOrEmpty(_latestFetchLogFilePath))
                 {
@@ -206,7 +231,7 @@ namespace _Example
         private void SetupResolutionEvent()
         {
             _originalResolution = Screen.currentResolution;
-            resolutionText.text = $"Resolution ({_originalResolution.width} x {_originalResolution.height})";
+            _resolutionText.text = $"Resolution ({_originalResolution.width} x {_originalResolution.height})";
 
             // 解像度のリスト (width)
             var resolutions = new[]
@@ -220,25 +245,27 @@ namespace _Example
             foreach (var width in resolutions)
             {
                 var resolution = CalcResolution(width);
-                var button = Instantiate(resetResolutionButton, resolutionButtonNode);
-                button.GetComponentInChildren<Text>().text = $"{resolution.width}p";
+                var button = new Button { text = $"{resolution.width}p" };
+                button.AddToClassList("button");
+                button.AddToClassList("resolution-button");
+                _resolutionButtonContainer.Add(button);
                 AddListener(resolution.width, resolution.height, button);
             }
 
-            AddListener(_originalResolution.width, _originalResolution.height, resetResolutionButton);
+            AddListener(_originalResolution.width, _originalResolution.height, _resetResolutionButton);
             return;
 
             void AddListener(int width, int height, Button button)
             {
-                button.onClick.AddListener(() =>
+                button.RegisterCallback<ClickEvent>(_ =>
                 {
-                    resolutionText.text = $"Resolution ({width} x {height})";
+                    _resolutionText.text = $"Resolution ({width} x {height})";
                     Screen.SetResolution(width, height, true);
 
-                    if (performanceHUDWithPositionToggle.isOn)
+                    if (_performanceHUDWithPositionToggle.value)
                     {
-                        var x = performanceHUDPositionXSlider.value;
-                        var y = performanceHUDPositionYSlider.value;
+                        var x = _performanceHUDPositionXSlider.value;
+                        var y = _performanceHUDPositionYSlider.value;
                         PerformanceHUDSwitcher.SetPerformanceHUDVisible(true, x, y);
                     }
                 });
