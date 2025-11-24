@@ -171,17 +171,13 @@
 
 .resolution-buttons {
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     gap: 10px;
-}
-
-.resolution-button {
-    min-width: 100px;
 }
 
 .resolution-button-row {
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     gap: 10px;
 }
 
