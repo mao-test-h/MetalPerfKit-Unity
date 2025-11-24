@@ -4,11 +4,17 @@ using iOSUtility.NativeShare;
 using MetalPerfKit;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
+using Slider = UnityEngine.UI.Slider;
+using Toggle = UnityEngine.UI.Toggle;
 
 namespace _Example
 {
     internal sealed class ExampleApplication : MonoBehaviour
     {
+        [SerializeField] private UIDocument uiDocument;
+
         [SerializeField] private Toggle performanceHUDToggle;
         [SerializeField] private Toggle performanceHUDWithPositionToggle;
         [SerializeField] private Toggle switch60FPSToggle;

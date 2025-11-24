@@ -767,6 +767,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1216922645}
   - component: {fileID: 1216922646}
+  - component: {fileID: 1216922647}
   m_Layer: 0
   m_Name: ExampleApplication
   m_TagString: Untagged
@@ -801,6 +802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c682a6707fb094901b9a6bacd685bd95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiDocument: {fileID: 1216922647}
   performanceHUDToggle: {fileID: 4239289571599925863}
   performanceHUDWithPositionToggle: {fileID: 1847080202778837482}
   switch60FPSToggle: {fileID: 6550978673461786375}
@@ -813,6 +815,23 @@ MonoBehaviour:
   resolutionText: {fileID: 1425644715}
   resolutionButtonNode: {fileID: 1294628744}
   resetResolutionButton: {fileID: 555341884}
+--- !u!114 &1216922647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216922644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 14cdedb1cd84b4cdfb58b8be9a25ce11, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 07144a12bb84546f88e5f04c9ffe0dfc,
+    type: 3}
+  m_SortingOrder: 0
 --- !u!1 &1294628743
 GameObject:
   m_ObjectHideFlags: 0
