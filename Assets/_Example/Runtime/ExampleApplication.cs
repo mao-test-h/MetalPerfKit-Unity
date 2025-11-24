@@ -3,7 +3,6 @@ using System.IO;
 using iOSUtility.NativeShare;
 using MetalPerfKit;
 using UnityEngine;
-using UnityEngine.Apple;
 using UnityEngine.UI;
 
 namespace _Example
@@ -26,7 +25,6 @@ namespace _Example
         [SerializeField] private RectTransform resolutionButtonNode;
         [SerializeField] private Button resetResolutionButton;
 
-        private readonly INativeShare _nativeShare = NativeShareFactory.Create();
         private string _latestFetchLogFilePath;
         private Resolution _originalResolution;
 
@@ -195,7 +193,7 @@ namespace _Example
                     return;
                 }
 
-                _nativeShare.ShareFile(_latestFetchLogFilePath);
+                NativeShare.ShareFile(_latestFetchLogFilePath);
             });
         }
 

@@ -155,10 +155,11 @@
       "url": "https://packages.unity.com"
     },
     "jp.mao-test-h.ios-utility": {
-      "version": "file:jp.mao-test-h.ios-utility",
+      "version": "https://github.com/mao-test-h/iOSUtility-Unity.git?path=Packages/jp.mao-test-h.ios-utility",
       "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
+      "source": "git",
+      "dependencies": {},
+      "hash": "89ad7b2c383e198631fb8fc3f42707d59aa31847"
     },
     "jp.mao-test-h.metal-perfkit-unity": {
       "version": "file:jp.mao-test-h.metal-perfkit-unity",
