@@ -108,7 +108,15 @@ namespace _Example
             {
                 try
                 {
-                    PerformanceHUDSwitcher.SetPerformanceHUDVisible(evt.newValue);
+                    if (evt.newValue)
+                    {
+                        _performanceHUDWithPositionToggle.SetValueWithoutNotify(false);
+                        PerformanceHUDSwitcher.SetPerformanceHUDVisible(true);
+                    }
+                    else
+                    {
+                        PerformanceHUDSwitcher.SetPerformanceHUDVisible(false);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -120,9 +128,17 @@ namespace _Example
             {
                 try
                 {
-                    var x = _performanceHUDPositionXSlider.value;
-                    var y = _performanceHUDPositionYSlider.value;
-                    PerformanceHUDSwitcher.SetPerformanceHUDVisible(evt.newValue, x, y);
+                    if (evt.newValue)
+                    {
+                        _performanceHUDToggle.SetValueWithoutNotify(false);
+                        var x = _performanceHUDPositionXSlider.value;
+                        var y = _performanceHUDPositionYSlider.value;
+                        PerformanceHUDSwitcher.SetPerformanceHUDVisible(true, x, y);
+                    }
+                    else
+                    {
+                        PerformanceHUDSwitcher.SetPerformanceHUDVisible(false);
+                    }
                 }
                 catch (Exception ex)
                 {
