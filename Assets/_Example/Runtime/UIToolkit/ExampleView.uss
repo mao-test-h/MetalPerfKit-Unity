@@ -1,13 +1,44 @@
+/* Variables */
+:root {
+    --color-text-primary: rgb(220, 220, 220);
+    --color-text-dark: rgb(30, 30, 30);
+    --color-bg-button: rgb(200, 200, 200);
+    --color-bg-button-hover: rgb(220, 220, 220);
+    --color-bg-button-active: rgb(180, 180, 180);
+    --color-bg-action: rgb(80, 200, 200);
+    --color-bg-action-hover: rgb(100, 220, 220);
+    --color-bg-action-active: rgb(60, 180, 180);
+    --color-bg-slider-label: rgb(45, 55, 65);
+
+    --spacing-padding: 20px;
+    --spacing-safe-area-top: 128px;
+    --spacing-margin-right: 16px;
+    --spacing-section: 20px;
+
+    --size-touch-target: 50px;
+    --size-toggle-box: 32px;
+    --size-button-min-width: 128px;
+    --size-input-width: 128px;
+
+    --font-size-large: 24px;
+    --font-size-normal: 18px;
+    --font-size-small: 16px;
+    --font-size-button: 14px;
+
+    --border-radius: 5px;
+    --border-radius-circle: 20px;
+}
+
 /* Root Container */
 .root {
     background-color: rgba(0, 0, 0, 0);
-    padding: 128px 20px 20px;
+    padding: var(--spacing-safe-area-top) var(--spacing-padding) var(--spacing-padding);
     flex-grow: 1;
 }
 
 /* Section Spacing */
 .section {
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-section);
 }
 
 /* Toggle Row - Horizontal Layout */
@@ -21,36 +52,36 @@
     align-items: center;
     margin-right: 15px;
     margin-bottom: 10px;
-    min-height: 50px;
+    min-height: var(--size-touch-target);
     flex-direction: row-reverse;
     margin: 0;
 }
 
 .toggle Label {
-    color: rgb(220, 220, 220);
-    font-size: 18px;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-normal);
     -unity-font-style: normal;
     -unity-text-align: middle-left;
-    min-height: 50px;
-    min-width: 32px;
-    padding-right: 16px;
+    min-height: var(--size-touch-target);
+    min-width: var(--size-toggle-box);
+    padding-right: var(--spacing-margin-right);
 }
 
 .toggle .unity-toggle__input {
-    width: 32px;
-    height: 32px;
+    width: var(--size-toggle-box);
+    height: var(--size-toggle-box);
     margin-right: 8px;
 }
 
 .toggle .unity-toggle__checkmark {
-    width: 32px;
-    height: 32px;
+    width: var(--size-toggle-box);
+    height: var(--size-toggle-box);
 }
 
 /* Slider Section */
 .slider-section {
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-section);
 }
 
 .slider-container {
@@ -61,14 +92,14 @@
 }
 
 .slider-label {
-    color: rgb(220, 220, 220);
-    font-size: 18px;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-normal);
     font-weight: bold;
     width: 40px;
     height: 40px;
     -unity-text-align: middle-center;
-    background-color: rgb(45, 55, 65);
-    border-radius: 20px;
+    background-color: var(--color-bg-slider-label);
+    border-radius: var(--border-radius-circle);
     margin-right: 10px;
     flex-shrink: 0;
 }
@@ -89,52 +120,52 @@
 }
 
 .log-count {
-    font-size: 24px;
+    font-size: var(--font-size-large);
     font-weight: bold;
     -unity-text-align: middle-center;
-    margin-right: 16px;
-    width: 128px;
+    margin-right: var(--spacing-margin-right);
+    width: var(--size-input-width);
 }
 
 /* Buttons */
 .button {
-    background-color: rgb(200, 200, 200);
-    color: rgb(30, 30, 30);
-    font-size: 14px;
-    border-radius: 5px;
+    background-color: var(--color-bg-button);
+    color: var(--color-text-dark);
+    font-size: var(--font-size-button);
+    border-radius: var(--border-radius);
     border-width: 0;
     padding: 10px 15px;
-    min-width: 128px;
-    min-height: 50px;
-    margin-right: 16px;
+    min-width: var(--size-button-min-width);
+    min-height: var(--size-touch-target);
+    margin-right: var(--spacing-margin-right);
     -unity-text-align: middle-center;
 }
 
 .button:hover {
-    background-color: rgb(220, 220, 220);
+    background-color: var(--color-bg-button-hover);
 }
 
 .button:active {
-    background-color: rgb(180, 180, 180);
+    background-color: var(--color-bg-button-active);
 }
 
 .button-action {
-    background-color: rgb(80, 200, 200);
+    background-color: var(--color-bg-action);
     color: rgb(255, 255, 255);
 }
 
 .button-action:hover {
-    background-color: rgb(100, 220, 220);
+    background-color: var(--color-bg-action-hover);
 }
 
 .button-action:active {
-    background-color: rgb(60, 180, 180);
+    background-color: var(--color-bg-action-active);
 }
 
 /* Resolution Section */
 .resolution-label {
-    color: rgb(220, 220, 220);
-    font-size: 16px;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-small);
     margin-bottom: 10px;
 }
 
