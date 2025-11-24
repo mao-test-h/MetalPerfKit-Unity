@@ -22,7 +22,6 @@ namespace _Example
         private Button _fetchLogsButton;
         private IntegerField _pastSecondsInputField;
         private Button _shareFetchLogsButton;
-        private Label _logCountLabel;
 
         private Label _resolutionText;
         private VisualElement _resolutionButtonContainer;
@@ -56,7 +55,6 @@ namespace _Example
             _fetchLogsButton = root.Q<Button>("fetch-logs-button");
             _pastSecondsInputField = root.Q<IntegerField>("past-seconds-input");
             _shareFetchLogsButton = root.Q<Button>("share-fetch-logs-button");
-            _logCountLabel = root.Q<Label>("log-count-label");
 
             _resolutionText = root.Q<Label>("resolution-text");
             _resolutionButtonContainer = root.Q<VisualElement>("resolution-button-container");
@@ -198,7 +196,6 @@ namespace _Example
                     if (success)
                     {
                         _latestFetchLogFilePath = filePath;
-                        _logCountLabel.text = seconds.ToString();
                         // Trigger share button click
                         using var clickEvent = ClickEvent.GetPooled();
                         clickEvent.target = _shareFetchLogsButton;

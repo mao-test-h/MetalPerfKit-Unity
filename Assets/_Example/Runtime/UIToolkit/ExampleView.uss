@@ -89,16 +89,11 @@
 }
 
 .log-count {
-    background-color: rgb(100, 200, 100);
-    color: rgb(30, 30, 30);
     font-size: 24px;
     font-weight: bold;
     -unity-text-align: middle-center;
-    padding: 10px 20px;
-    border-radius: 5px;
-    min-width: 128px;
-    min-height: 50px;
     margin-right: 16px;
+    width: 128px;
 }
 
 /* Buttons */

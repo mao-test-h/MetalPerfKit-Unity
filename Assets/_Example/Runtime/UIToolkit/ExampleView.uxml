@@ -33,11 +33,9 @@
             <engine:VisualElement class="log-row">
                 <engine:Toggle name="performance-logging-toggle" label="Log" class="toggle" />
                 <engine:Button name="fetch-logs-button" text="Fetch Logs" class="button" />
-                <engine:Label name="log-count-label" text="15" class="log-count" />
+                <engine:IntegerField name="past-seconds-input" value="15" class="log-count" />
                 <engine:Button name="share-fetch-logs-button" text="Share&#10;Fetch Logs" class="button button-action" />
             </engine:VisualElement>
-            <!-- Hidden input field for past seconds -->
-            <engine:IntegerField name="past-seconds-input" value="15" class="hidden" />
         </engine:VisualElement>
 
         <!-- Resolution Section -->
