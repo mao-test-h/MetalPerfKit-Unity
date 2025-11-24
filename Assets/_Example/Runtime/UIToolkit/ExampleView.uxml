@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="project://database/Assets/_Example/Runtime/UIToolkit/ExampleView.uss?fileID=7433441132597879392&amp;guid=6badc7e011279476caf82a16a2a5e3e0&amp;type=3#ExampleView" />
+    <engine:VisualElement name="root-container" class="root">
+        <!-- HUD Control Section -->
+        <engine:VisualElement class="section">
+            <engine:VisualElement class="toggle-row">
+                <engine:Toggle name="performance-hud-toggle" label="HUD" class="toggle" />
+                <engine:Toggle name="performance-hud-with-position-toggle" label="HUD With Position" class="toggle" />
+                <engine:Toggle name="switch-60fps-toggle" label="60fps" class="toggle" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+
+        <!-- Position Slider Section -->
+        <engine:VisualElement class="section slider-section">
+            <engine:VisualElement class="slider-container">
+                <engine:Label text="X" class="slider-label" />
+                <engine:Slider name="performance-hud-position-x-slider" low-value="0" high-value="1" class="slider" />
+            </engine:VisualElement>
+            <engine:VisualElement class="slider-container">
+                <engine:Label text="Y" class="slider-label" />
+                <engine:Slider name="performance-hud-position-y-slider" low-value="0" high-value="1" class="slider" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+
+        <!-- Log Section -->
+        <engine:VisualElement class="section">
+            <engine:VisualElement class="log-row">
+                <engine:Toggle name="performance-logging-toggle" label="Log" class="toggle" />
+                <engine:Button name="fetch-logs-button" text="Fetch Logs" class="button" />
+                <engine:IntegerField name="past-seconds-input" value="15" class="log-count" />
+                <engine:Button name="share-fetch-logs-button" text="Share&#10;Fetch Logs" class="button button-action" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+
+        <!-- Resolution Section -->
+        <engine:VisualElement class="section">
+            <engine:Label name="resolution-text" text="Resolution (1284 x 2778)" class="resolution-label" />
+            <engine:VisualElement class="resolution-buttons">
+                <engine:Button name="reset-resolution-button" text="Reset" class="button resolution-button" />
+                <engine:VisualElement name="resolution-button-container" class="resolution-button-row" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

@@ -1,0 +1,191 @@
+/* Variables */
+:root {
+    --color-text-primary: rgb(220, 220, 220);
+    --color-text-dark: rgb(30, 30, 30);
+    --color-bg-button: rgb(200, 200, 200);
+    --color-bg-button-hover: rgb(220, 220, 220);
+    --color-bg-button-active: rgb(180, 180, 180);
+    --color-bg-action: rgb(80, 200, 200);
+    --color-bg-action-hover: rgb(100, 220, 220);
+    --color-bg-action-active: rgb(60, 180, 180);
+    --color-bg-slider-label: rgb(45, 55, 65);
+
+    --spacing-padding: 20px;
+    --spacing-safe-area-top: 128px;
+    --spacing-margin-right: 16px;
+    --spacing-section: 20px;
+
+    --size-touch-target: 50px;
+    --size-toggle-box: 32px;
+    --size-button-min-width: 128px;
+    --size-input-width: 128px;
+
+    --font-size-large: 24px;
+    --font-size-normal: 18px;
+    --font-size-small: 16px;
+    --font-size-button: 14px;
+
+    --border-radius: 5px;
+    --border-radius-circle: 20px;
+}
+
+/* Root Container */
+.root {
+    background-color: rgba(0, 0, 0, 0);
+    padding: var(--spacing-safe-area-top) var(--spacing-padding) var(--spacing-padding);
+    flex-grow: 1;
+}
+
+/* Section Spacing */
+.section {
+    margin-bottom: var(--spacing-section);
+}
+
+/* Toggle Row - Horizontal Layout */
+.toggle-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.toggle {
+    align-items: center;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    min-height: var(--size-touch-target);
+    flex-direction: row-reverse;
+    margin: 0;
+}
+
+.toggle Label {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-normal);
+    -unity-font-style: normal;
+    -unity-text-align: middle-left;
+    min-height: var(--size-touch-target);
+    min-width: var(--size-toggle-box);
+    padding-right: var(--spacing-margin-right);
+}
+
+.toggle .unity-toggle__input {
+    width: var(--size-toggle-box);
+    height: var(--size-toggle-box);
+    margin-right: 8px;
+}
+
+.toggle .unity-toggle__checkmark {
+    width: var(--size-toggle-box);
+    height: var(--size-toggle-box);
+}
+
+/* Slider Section */
+.slider-section {
+    margin-top: 10px;
+    margin-bottom: var(--spacing-section);
+}
+
+.slider-container {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.slider-label {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-normal);
+    font-weight: bold;
+    width: 40px;
+    height: 40px;
+    -unity-text-align: middle-center;
+    background-color: var(--color-bg-slider-label);
+    border-radius: var(--border-radius-circle);
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.slider {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 44px;
+    min-width: 0;
+}
+
+/* Log Row - Horizontal Layout */
+.log-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.log-count {
+    font-size: var(--font-size-large);
+    font-weight: bold;
+    -unity-text-align: middle-center;
+    margin-right: var(--spacing-margin-right);
+    width: var(--size-input-width);
+}
+
+/* Buttons */
+.button {
+    background-color: var(--color-bg-button);
+    color: var(--color-text-dark);
+    font-size: var(--font-size-button);
+    border-radius: var(--border-radius);
+    border-width: 0;
+    padding: 10px 15px;
+    min-width: var(--size-button-min-width);
+    min-height: var(--size-touch-target);
+    margin-right: var(--spacing-margin-right);
+    -unity-text-align: middle-center;
+}
+
+.button:hover {
+    background-color: var(--color-bg-button-hover);
+}
+
+.button:active {
+    background-color: var(--color-bg-button-active);
+}
+
+.button-action {
+    background-color: var(--color-bg-action);
+    color: rgb(255, 255, 255);
+}
+
+.button-action:hover {
+    background-color: var(--color-bg-action-hover);
+}
+
+.button-action:active {
+    background-color: var(--color-bg-action-active);
+}
+
+/* Resolution Section */
+.resolution-label {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-small);
+    margin-bottom: 10px;
+}
+
+.resolution-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.resolution-button {
+    min-width: 100px;
+}
+
+.resolution-button-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Hidden Elements */
+.hidden {
+    display: none;
+}

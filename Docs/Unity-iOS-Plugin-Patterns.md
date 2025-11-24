@@ -6,6 +6,20 @@
 C# (Unity) ←→ P/Invoke ←→ Swift (@_cdecl) ←→ iOS Frameworks
 ```
 
+## 命名規則
+
+`@_cdecl` で公開するメソッド名は `(パッケージ名)_(メソッド名)` の形式で定義すること。
+例として以下の構成の場合にはサンプルコードに示す通りとする。
+
+- パッケージ名: `MetalPerfKit`
+- メソッド名: `GetHUDVisible`
+
+```swift
+@_cdecl("MetalPerfKit_GetHUDVisible")
+public func MetalPerfKit_GetHUDVisible() -> Int32 {
+}
+```
+
 ## プラグインの実装と呼び出し方
 
 ```swift
