@@ -42,7 +42,7 @@
         <engine:VisualElement class="section">
             <engine:Label name="resolution-text" text="Resolution (1284 x 2778)" class="resolution-label" />
             <engine:VisualElement class="resolution-buttons">
-                <engine:Button name="reset-resolution-button" text="Reset" class="button resolution-button" />
+                <engine:Button name="reset-resolution-button" text="Reset" class="button" />
                 <engine:VisualElement name="resolution-button-container" class="resolution-button-row" />
             </engine:VisualElement>
         </engine:VisualElement>
