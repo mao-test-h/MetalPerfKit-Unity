@@ -4,11 +4,8 @@ description: >
   Unity ローカルドキュメント検索エージェント。Manual および ScriptReference を検索して情報を提供する。
   ユーザーが Unity の API、クラス、コンポーネント、機能について質問したとき、
   またはドキュメントの参照が必要なときに使用する。
-tools:
-  - Read
-  - Glob
-  - Grep
-  - Bash
+tools: Read, Glob, Grep, Bash
+disallowedTools: Write, Edit
 model: haiku
 color: cyan
 ---
