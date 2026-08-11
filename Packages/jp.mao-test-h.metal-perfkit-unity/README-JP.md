@@ -15,12 +15,14 @@ Unity for iOS 環境で Metal Performance HUD を利用するためのパッケ�
 主な機能:
 - Metal Performance HUD の表示制御
 - パフォーマンスログの取得と保存
+- StateReporting によるアプリケーション状態の報告
 - Xcode ビルド時の Metal 環境変数の設定
 
 ## 動作環境
 
 - Unity 2022.3+
 - iOS 16+
+- StateReporter を使用する場合は Xcode 27+ / iOS 27+
 
 ## インストール (WIP)
 
@@ -138,7 +140,61 @@ public class Example : MonoBehaviour
 }
 ```
 
-### 3. LaunchEnvironment (Editor 拡張)
+### 3. StateReporter
+
+StateReporting を使用して、アプリケーションの状態遷移とメタデータを報告します。
+StateReporter は iOS 27 以降で動作し、それ以前の iOS では呼び出しが無視されます。
+
+#### API
+
+```csharp
+StateReporter StateReporter.ReporterForDomain(string domain)
+
+void ReportTransitionToStateLabel(
+    string stateLabel,
+    IReadOnlyDictionary<string, StateReporterMetadataValue> stableMetadata = null,
+    IReadOnlyDictionary<string, StateReporterMetadataValue> volatileMetadata = null)
+
+void ReportVolatileMetadataUpdate(
+    IReadOnlyDictionary<string, StateReporterMetadataValue> updatedMetadata)
+```
+
+`StateReporterMetadataValue` には、文字列、Bool、符号付き・符号なし整数、`float`、`double`、`DateTimeOffset` を指定できます。
+
+#### 使用例
+
+```csharp
+using System.Collections.Generic;
+using MetalPerfKit;
+using UnityEngine;
+
+public class StateReporterExample : MonoBehaviour
+{
+    void Start()
+    {
+        var reporter = StateReporter.ReporterForDomain("com.mygame.level");
+
+        reporter.ReportTransitionToStateLabel("Level 1");
+
+        reporter.ReportTransitionToStateLabel(
+            "Level 1",
+            new Dictionary<string, StateReporterMetadataValue>
+            {
+                ["id"] = 1001
+            });
+
+        reporter.ReportVolatileMetadataUpdate(
+            new Dictionary<string, StateReporterMetadataValue>
+            {
+                ["health"] = 100
+            });
+    }
+}
+```
+
+状態遷移と volatile metadata の更新にはレート制限があります。毎フレームや短いループ内では呼び出さず、ユーザー操作と同程度か、それより低い頻度で呼び出してください。
+
+### 4. LaunchEnvironment (Editor 拡張)
 
 Xcode ビルド時に Metal 関連の環境変数を設定します。
 
@@ -179,3 +235,5 @@ MIT License
 - [Understanding the Metal Performance HUD metrics](https://developer.apple.com/documentation/xcode/understanding-metal-performance-hud-metrics)
 - [Gaining performance insights with the Metal Performance HUD](https://developer.apple.com/documentation/xcode/gaining-performance-insights-with-metal-performance-hud)
 - [Generating performance reports with the Metal Performance HUD](https://developer.apple.com/documentation/xcode/generating-performance-reports-with-metal-performance-hud)
+- [Getting started with StateReporting](https://developer.apple.com/documentation/statereporting/getting-started-with-statereporting)
+- [Metal ゲームのパフォーマンス問題の検出と修正](https://developer.apple.com/jp/videos/play/wwdc2026/388/)
