@@ -1,4 +1,3 @@
-#if UNITY_IOS
 using System;
 using UnityEngine;
 
@@ -85,4 +84,3 @@ namespace MetalPerfKit.Editor
         }
     }
 }
-#endif
