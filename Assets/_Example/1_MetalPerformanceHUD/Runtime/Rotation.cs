@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Example
+namespace _Example.MetalPerformanceHUD
 {
     public sealed class Rotation : MonoBehaviour
     {

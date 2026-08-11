@@ -1,6 +1,6 @@
 {
-    "name": "_Example",
-    "rootNamespace": "",
+    "name": "1_MetalPerformanceHUD",
+    "rootNamespace": "_Example.MetalPerformanceHUD",
     "references": [
         "GUID:e9885ff39d89046c58b9878b65eb4c8d",
         "GUID:f86dcacd6556248169f9db7b61091ebf"
