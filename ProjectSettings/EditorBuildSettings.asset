@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Example/1_MetalPerformanceHUD/Scenes/MetalPerformanceHUD.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/_Example/2_MetalPerformanceMetrics/Scenes/MetalPerformanceMetrics.unity
+    guid: f0ae64ec970644a39a2412fa29d94b98
   m_configObjects: {}
