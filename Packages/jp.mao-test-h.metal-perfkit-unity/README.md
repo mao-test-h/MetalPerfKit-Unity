@@ -17,14 +17,12 @@ This package enables you to leverage Metal's performance analysis features when 
 Key features:
 - Control visibility and position of Metal Performance HUD
 - Capture and save performance logs
-- Report application state through StateReporting
 - Configure Metal environment variables during Xcode build
 
 ## Requirements
 
 - Unity 2022.3+
 - iOS 16+
-- Xcode 27+ / iOS 27+ when using StateReporter
 
 ## Installation (WIP)
 
@@ -142,61 +140,7 @@ public class Example : MonoBehaviour
 }
 ```
 
-### 3. StateReporter
-
-Reports application state transitions and metadata through StateReporting.
-StateReporter operates on iOS 27 or later. Calls are ignored on earlier iOS versions.
-
-#### API
-
-```csharp
-StateReporter StateReporter.ReporterForDomain(string domain)
-
-void ReportTransitionToStateLabel(
-    string stateLabel,
-    IReadOnlyDictionary<string, StateReporterMetadataValue> stableMetadata = null,
-    IReadOnlyDictionary<string, StateReporterMetadataValue> volatileMetadata = null)
-
-void ReportVolatileMetadataUpdate(
-    IReadOnlyDictionary<string, StateReporterMetadataValue> updatedMetadata)
-```
-
-`StateReporterMetadataValue` accepts strings, Boolean values, signed and unsigned integers, `float`, `double`, and `DateTimeOffset`.
-
-#### Example Usage
-
-```csharp
-using System.Collections.Generic;
-using MetalPerfKit;
-using UnityEngine;
-
-public class StateReporterExample : MonoBehaviour
-{
-    void Start()
-    {
-        var reporter = StateReporter.ReporterForDomain("com.mygame.level");
-
-        reporter.ReportTransitionToStateLabel("Level 1");
-
-        reporter.ReportTransitionToStateLabel(
-            "Level 1",
-            new Dictionary<string, StateReporterMetadataValue>
-            {
-                ["id"] = 1001
-            });
-
-        reporter.ReportVolatileMetadataUpdate(
-            new Dictionary<string, StateReporterMetadataValue>
-            {
-                ["health"] = 100
-            });
-    }
-}
-```
-
-State transitions and volatile metadata updates are rate-limited. Do not call them every frame or in a tight loop; call them at human-interaction timescales or less frequently.
-
-### 4. LaunchEnvironment (Editor Extension)
+### 3. LaunchEnvironment (Editor Extension)
 
 Sets Metal-related environment variables during Xcode build.
 
@@ -237,5 +181,3 @@ MIT License
 - [Understanding the Metal Performance HUD metrics](https://developer.apple.com/documentation/xcode/understanding-metal-performance-hud-metrics)
 - [Gaining performance insights with the Metal Performance HUD](https://developer.apple.com/documentation/xcode/gaining-performance-insights-with-metal-performance-hud)
 - [Generating performance reports with the Metal Performance HUD](https://developer.apple.com/documentation/xcode/generating-performance-reports-with-metal-performance-hud)
-- [Getting started with StateReporting](https://developer.apple.com/documentation/statereporting/getting-started-with-statereporting)
-- [Find and fix performance issues in Metal games](https://developer.apple.com/videos/play/wwdc2026/388/)
