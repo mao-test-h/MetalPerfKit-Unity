@@ -5,7 +5,7 @@ using MetalPerfKit;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace _Example
+namespace _Example.MetalPerformanceHUD
 {
     internal sealed class ExampleApplication : MonoBehaviour
     {
