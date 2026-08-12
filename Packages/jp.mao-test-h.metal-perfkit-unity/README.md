@@ -17,12 +17,14 @@ This package enables you to leverage Metal's performance analysis features when 
 Key features:
 - Control visibility and position of Metal Performance HUD
 - Capture and save performance logs
+- Report application state through StateReporting
 - Configure Metal environment variables during Xcode build
 
 ## Requirements
 
 - Unity 2022.3+
 - iOS 16+
+- Xcode 27+ / iOS 27+ when using StateReporter
 
 ## Installation (WIP)
 
@@ -140,7 +142,85 @@ public class Example : MonoBehaviour
 }
 ```
 
-### 3. LaunchEnvironment (Editor Extension)
+### 3. StateReporter
+
+Reports application state transitions and metadata through StateReporting.
+StateReporter operates in apps built with Xcode 27 or later and running on iOS 27 or later. Calls are ignored when the SDK doesn't contain StateReporting or the device is running an earlier iOS version.
+
+#### API
+
+```csharp
+StateReporter StateReporter.ReporterForDomain(string domain)
+
+void ReportTransitionToStateLabel(
+    string stateLabel,
+    IReadOnlyDictionary<string, StateReporterMetadataValue> stableMetadata = null,
+    IReadOnlyDictionary<string, StateReporterMetadataValue> volatileMetadata = null)
+
+void ReportVolatileMetadataUpdate(
+    IReadOnlyDictionary<string, StateReporterMetadataValue> updatedMetadata)
+```
+
+`StateReporterMetadataValue` accepts strings, Boolean values, signed and unsigned integers, `float`, `double`, and `DateTimeOffset`.
+
+#### Example Usage
+
+```csharp
+using System.Collections.Generic;
+using MetalPerfKit;
+using UnityEngine;
+
+public class StateReporterExample : MonoBehaviour
+{
+    private StateReporter _gameplayReporter;
+
+    void Start()
+    {
+        _gameplayReporter = StateReporter.ReporterForDomain("com.mygame.gameplay");
+        _gameplayReporter.ReportTransitionToStateLabel(
+            "Playing",
+            new Dictionary<string, StateReporterMetadataValue>
+            {
+                ["graphicsQuality"] = "High",
+                ["engineVersion"] = "1.2.3"
+            },
+            new Dictionary<string, StateReporterMetadataValue>
+            {
+                ["health"] = 100
+            });
+    }
+
+    void UpdateHealth(int health)
+    {
+        _gameplayReporter.ReportVolatileMetadataUpdate(
+            new Dictionary<string, StateReporterMetadataValue>
+            {
+                ["health"] = health
+            });
+    }
+
+    void EndGameplay()
+    {
+        _gameplayReporter.ReportTransitionToStateLabel(null);
+    }
+}
+```
+
+`ReporterForDomain` returns the same instance for a given domain. Keep the reporter in a field or another long-lived object for as long as the domain is relevant. Use a stable reverse-DNS string that represents one functional area. Changing the domain name starts a new data series that isn't correlated with data collected under the previous name.
+
+At most one state can be active in each domain. A state is identified by the combination of its label and stable metadata. Reporting the same label and stable metadata as the current state doesn't record a new transition.
+
+- Use a small, fixed set of short labels such as `Playing`, `High`, or `Low`.
+- Stable metadata participates in per-state aggregation. Use it for information with few distinct values, such as graphics quality or engine version.
+- Use volatile metadata for health, progress, position, and other values that change within a state. Volatile metadata doesn't affect per-state aggregation.
+
+`ReportTransitionToStateLabel(null)` ends the current state. If the state label is `null`, any stable and volatile metadata passed with it is ignored. `ReportVolatileMetadataUpdate(null)` clears volatile metadata without ending the current state and has no effect when no state is active.
+
+State transitions and volatile metadata updates are rate-limited. Don't call them every frame or in a tight loop. Call them at human-interaction timescales, such as a button press, screen navigation, or activity start, or less frequently. StateReporting drops data when these methods are called too often.
+
+After instrumenting the app, use Metal Performance HUD or Instruments to verify that domains, transitions, and metadata appear as intended.
+
+### 4. LaunchEnvironment (Editor Extension)
 
 Sets Metal-related environment variables during Xcode build.
 
@@ -181,3 +261,5 @@ MIT License
 - [Understanding the Metal Performance HUD metrics](https://developer.apple.com/documentation/xcode/understanding-metal-performance-hud-metrics)
 - [Gaining performance insights with the Metal Performance HUD](https://developer.apple.com/documentation/xcode/gaining-performance-insights-with-metal-performance-hud)
 - [Generating performance reports with the Metal Performance HUD](https://developer.apple.com/documentation/xcode/generating-performance-reports-with-metal-performance-hud)
+- [Getting started with StateReporting](https://developer.apple.com/documentation/statereporting/getting-started-with-statereporting)
+- [Find and fix performance issues in Metal games](https://developer.apple.com/videos/play/wwdc2026/388/)
