@@ -1,4 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <engine:UXML
     xmlns:engine="UnityEngine.UIElements"
-/>
+>
+    <Style src="project://database/Assets/_Example/2_MetalPerformanceMetrics/Runtime/UIToolkit/ExampleView.uss?fileID=7433441132597879392&amp;guid=b6264946bd6414213a91728fa30a3979&amp;type=3#ExampleView" />
+    <engine:VisualElement name="root-container" class="root">
+        <engine:VisualElement name="safe-area" class="safe-area">
+            <engine:VisualElement name="title-page" class="page">
+                <engine:VisualElement class="panel">
+                    <engine:Label text="Metal Performance Metrics" class="title" />
+                    <engine:Label text="StateReporter Sample" class="subtitle" />
+                    <engine:Button name="open-main-button" text="Main" class="button button-primary" />
+                    <engine:Button name="open-settings-button" text="Settings" class="button" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+
+            <engine:VisualElement name="main-page" class="page hidden">
+                <engine:VisualElement class="panel panel-wide">
+                    <engine:Label text="Main" class="title" />
+                    <engine:Label text="Generate transparent cubes to increase rendering load and overdraw." class="description" />
+                    <engine:Label name="cube-count-label" text="CubeCount: 1" class="count" />
+                    <engine:VisualElement class="button-row">
+                        <engine:Button name="add-100-button" text="Add 100" class="button button-primary compact" />
+                        <engine:Button name="add-1000-button" text="Add 1,000" class="button button-primary compact" />
+                        <engine:Button name="add-10000-button" text="Add 10,000" class="button button-danger compact" />
+                    </engine:VisualElement>
+                    <engine:Button name="main-back-button" text="Back to Title" class="button" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+
+            <engine:VisualElement name="settings-page" class="page hidden">
+                <engine:VisualElement class="panel">
+                    <engine:Label text="Settings" class="title" />
+                    <engine:DropdownField name="frame-rate-dropdown" label="Target Frame Rate" class="dropdown" />
+                    <engine:DropdownField name="quality-dropdown" label="Quality" class="dropdown" />
+                    <engine:Label text="Low: URP-Performant&#10;Medium: URP-Balanced&#10;High: URP-HighFidelity" class="description quality-help" />
+                    <engine:Button name="settings-back-button" text="Back to Title" class="button" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>
