@@ -267,4 +267,4 @@ MIT License
 - [Gaining performance insights with the Metal Performance HUD](https://developer.apple.com/documentation/xcode/gaining-performance-insights-with-metal-performance-hud)
 - [Generating performance reports with the Metal Performance HUD](https://developer.apple.com/documentation/xcode/generating-performance-reports-with-metal-performance-hud)
 - [Getting started with StateReporting](https://developer.apple.com/documentation/statereporting/getting-started-with-statereporting)
-- [Find and fix performance issues in Metal games](https://developer.apple.com/videos/play/wwdc2026/388/)
+  - [WWDC2026 - Find and fix performance issues in Metal games](https://developer.apple.com/videos/play/wwdc2026/388/)
