@@ -171,7 +171,7 @@ Xcode ビルド時に Metal 関連の環境変数を設定します。
 > Xcode 27 以降でビルドし、iOS 27 以降で実行した場合に動作します。  
 > `StateReporting` フレームワークを含まない SDK でビルドした場合や、iOS 27 未満で実行した場合、呼び出しは無視されます。
 
-このパッケージの `StateReporter` は、Apple の StateReporting API を利用して、アプリケーションの状態遷移とメタデータを記録します。  
+このパッケージの `StateReporter` は、Apple の `StateReporting API` を利用して、アプリケーションの状態遷移とメタデータを記録します。  
 API の概要や呼び出し頻度に関するレート制限など、詳しい仕様は公式ドキュメントを参照してください。  
 
 - [Getting started with StateReporting](https://developer.apple.com/documentation/statereporting/getting-started-with-statereporting)
