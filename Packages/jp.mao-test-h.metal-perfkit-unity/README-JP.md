@@ -22,7 +22,7 @@ Unity for iOS 環境で Metal Performance HUD を利用するためのパッケ�
 
 - Unity 2022.3+
 - iOS 16+
-- StateReporter を使用する場合は Xcode 27+ / iOS 27+
+  - `StateReporter` を使用する場合: Xcode 27+ / iOS 27+
 
 ## インストール (WIP)
 
@@ -140,26 +140,68 @@ public class Example : MonoBehaviour
 }
 ```
 
-### 3. StateReporter
+### 3. LaunchEnvironment (Editor 拡張)
 
-StateReporting を使用して、アプリケーションの状態遷移とメタデータを報告します。
-StateReporter は Xcode 27 以降でビルドした iOS 27 以降のアプリで動作します。StateReporting を含まない SDK や iOS 27 未満では呼び出しが無視されます。
+Xcode ビルド時に Metal 関連の環境変数を設定します。
+
+#### 対応している環境変数
+
+- `MTL_HUD_OPACITY`: HUD の不透明度 (0.0 ～ 1.0)
+- `MTL_HUD_SCALE`: HUD のスケール (0.0 ～ 1.0)
+- `MTL_HUD_ALIGNMENT`: HUD の配置位置
+  - topleft, topcenter, topright
+  - centerleft, centered, centerright
+  - bottomleft, bottomcenter, bottomright
+- `MTL_HUD_INSIGHTS_ENABLED`: Metal Insights の有効化
+- `MTL_HUD_INSIGHT_TIMEOUT`: Insights のタイムアウト時間
+- `MTL_HUD_INSIGHT_REPORT_INTERVAL`: Insights のレポート間隔
+
+#### 使用方法
+
+1. `Assets/Settings` などに設定ファイルを作成
+   - 右クリック > Create > MetalPerfKit > Launch Environment
+2. Inspector で環境変数を設定
+3. ビルド時に自動的に Xcode プロジェクトに反映されます
+
+### 4. StateReporter (Preview)
+
+> [!WARNING]
+> `StateReporter` はプレビュー機能です。  
+>
+> Xcode 27 以降でビルドし、iOS 27 以降で実行した場合に動作します。  
+> `StateReporting` フレームワークを含まない SDK でビルドした場合や、iOS 27 未満で実行した場合、呼び出しは無視されます。
+
+このパッケージの `StateReporter` は、Apple の StateReporting API を利用して、アプリケーションの状態遷移とメタデータを記録します。  
+API の概要や呼び出し頻度に関するレート制限など、詳しい仕様は公式ドキュメントを参照してください。  
+
+- [Getting started with StateReporting](https://developer.apple.com/documentation/statereporting/getting-started-with-statereporting)
+- [StateReporter](https://developer.apple.com/documentation/statereporting/statereporter)
 
 #### API
 
 ```csharp
+// 指定したドメインの StateReporter を取得する
 StateReporter StateReporter.ReporterForDomain(string domain)
 
+// 新しい状態への遷移を記録する
 void ReportTransitionToStateLabel(
     string stateLabel,
     IReadOnlyDictionary<string, StateReporterMetadataValue> stableMetadata = null,
     IReadOnlyDictionary<string, StateReporterMetadataValue> volatileMetadata = null)
 
+// 現在の状態を維持したまま volatileMetadata を更新する
 void ReportVolatileMetadataUpdate(
     IReadOnlyDictionary<string, StateReporterMetadataValue> updatedMetadata)
 ```
 
-`StateReporterMetadataValue` には、文字列、Bool、符号付き・符号なし整数、`float`、`double`、`DateTimeOffset` を指定できます。
+`StateReporterMetadataValue` には、以下の型を指定できます。
+
+- `string`
+- `bool`
+- `sbyte`, `short`, `int`, `long`
+- `byte`,`ushort`, `uint`, `ulong`
+- `float`,`double`
+- `DateTimeOffset`
 
 #### 使用例
 
@@ -203,43 +245,6 @@ public class StateReporterExample : MonoBehaviour
     }
 }
 ```
-
-`ReporterForDomain` は同じドメインに対して同じインスタンスを返します。レポーターはフィールドなどに保持し、ドメインが必要な期間中存続させてください。ドメインには機能領域を表す安定した逆 DNS 形式の文字列を使用します。ドメイン名を変更すると、以前のドメインで収集したデータとは別の系列として扱われます。
-
-各ドメインで同時にアクティブにできる状態は 1 つです。状態は状態ラベルと stable metadata の組み合わせで識別され、両方が現在の状態と同じ場合は新しい遷移として記録されません。
-
-- 状態ラベルには `Playing`、`High`、`Low` のような短く固定された少数の値を使用してください。
-- stable metadata は状態別の集計に使われます。グラフィックス品質やエンジンバージョンなど、値の種類が少ない情報に使用してください。
-- volatile metadata は状態内で変化する体力、進捗、位置などに使用してください。volatile metadata は状態別の集計単位にはなりません。
-
-`ReportTransitionToStateLabel(null)` は現在の状態を終了します。状態ラベルが `null` の場合、stable metadata と volatile metadata を同時に指定しても無視されます。`ReportVolatileMetadataUpdate(null)` は現在の状態を維持したまま volatile metadata を消去し、アクティブな状態がない場合は何も行いません。
-
-状態遷移と volatile metadata の更新にはレート制限があります。毎フレームや短いループ内では呼び出さず、ボタン操作、画面遷移、アクティビティ開始など、ユーザー操作と同程度か、それより低い頻度で呼び出してください。高頻度に呼び出すと StateReporting がデータを破棄します。
-
-実装後は Metal Performance HUD または Instruments でドメイン、状態遷移、メタデータが意図どおりに表示されることを確認してください。
-
-### 4. LaunchEnvironment (Editor 拡張)
-
-Xcode ビルド時に Metal 関連の環境変数を設定します。
-
-#### 対応している環境変数
-
-- `MTL_HUD_OPACITY`: HUD の不透明度 (0.0 ～ 1.0)
-- `MTL_HUD_SCALE`: HUD のスケール (0.0 ～ 1.0)
-- `MTL_HUD_ALIGNMENT`: HUD の配置位置
-  - topleft, topcenter, topright
-  - centerleft, centered, centerright
-  - bottomleft, bottomcenter, bottomright
-- `MTL_HUD_INSIGHTS_ENABLED`: Metal Insights の有効化
-- `MTL_HUD_INSIGHT_TIMEOUT`: Insights のタイムアウト時間
-- `MTL_HUD_INSIGHT_REPORT_INTERVAL`: Insights のレポート間隔
-
-#### 使用方法
-
-1. `Assets/Settings` などに設定ファイルを作成
-   - 右クリック > Create > MetalPerfKit > Launch Environment
-2. Inspector で環境変数を設定
-3. ビルド時に自動的に Xcode プロジェクトに反映されます
 
 ## サンプル
 
