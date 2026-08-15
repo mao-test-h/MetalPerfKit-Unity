@@ -15,12 +15,14 @@ Unity for iOS 環境で Metal Performance HUD を利用するためのパッケ�
 主な機能:
 - Metal Performance HUD の表示制御
 - パフォーマンスログの取得と保存
+- StateReporting によるアプリケーション状態の報告
 - Xcode ビルド時の Metal 環境変数の設定
 
 ## 動作環境
 
 - Unity 2022.3+
 - iOS 16+
+  - `StateReporter` を使用する場合: Xcode 27+ / iOS 27+
 
 ## インストール (WIP)
 
@@ -161,6 +163,89 @@ Xcode ビルド時に Metal 関連の環境変数を設定します。
 2. Inspector で環境変数を設定
 3. ビルド時に自動的に Xcode プロジェクトに反映されます
 
+### 4. StateReporter (Preview)
+
+> [!WARNING]
+> `StateReporter` はプレビュー機能です。  
+>
+> Xcode 27 以降でビルドし、iOS 27 以降で実行した場合に動作します。  
+> `StateReporting` フレームワークを含まない SDK でビルドした場合や、iOS 27 未満で実行した場合、呼び出しは無視されます。
+
+このパッケージの `StateReporter` は、Apple の `StateReporting API` を利用して、アプリケーションの状態遷移とメタデータを記録します。  
+API の概要や呼び出し頻度に関するレート制限など、詳しい仕様は公式ドキュメントを参照してください。  
+
+- [Getting started with StateReporting](https://developer.apple.com/documentation/statereporting/getting-started-with-statereporting)
+- [StateReporter](https://developer.apple.com/documentation/statereporting/statereporter)
+
+#### API
+
+```csharp
+// 指定したドメインの StateReporter を取得する
+StateReporter StateReporter.ReporterForDomain(string domain)
+
+// 新しい状態への遷移を記録する
+void ReportTransitionToStateLabel(
+    string stateLabel,
+    IReadOnlyDictionary<string, StateReporterMetadataValue> stableMetadata = null,
+    IReadOnlyDictionary<string, StateReporterMetadataValue> volatileMetadata = null)
+
+// 現在の状態を維持したまま volatileMetadata を更新する
+void ReportVolatileMetadataUpdate(
+    IReadOnlyDictionary<string, StateReporterMetadataValue> updatedMetadata)
+```
+
+`StateReporterMetadataValue` には、以下の型を指定できます。
+
+- `string`
+- `bool`
+- `sbyte`, `short`, `int`, `long`
+- `byte`,`ushort`, `uint`, `ulong`
+- `float`,`double`
+- `DateTimeOffset`
+
+#### 使用例
+
+```csharp
+using System.Collections.Generic;
+using MetalPerfKit;
+using UnityEngine;
+
+public class StateReporterExample : MonoBehaviour
+{
+    private StateReporter _gameplayReporter;
+
+    void Start()
+    {
+        _gameplayReporter = StateReporter.ReporterForDomain("com.mygame.gameplay");
+        _gameplayReporter.ReportTransitionToStateLabel(
+            "Playing",
+            new Dictionary<string, StateReporterMetadataValue>
+            {
+                ["graphicsQuality"] = "High",
+                ["engineVersion"] = "1.2.3"
+            },
+            new Dictionary<string, StateReporterMetadataValue>
+            {
+                ["health"] = 100
+            });
+    }
+
+    void UpdateHealth(int health)
+    {
+        _gameplayReporter.ReportVolatileMetadataUpdate(
+            new Dictionary<string, StateReporterMetadataValue>
+            {
+                ["health"] = health
+            });
+    }
+
+    void EndGameplay()
+    {
+        _gameplayReporter.ReportTransitionToStateLabel(null);
+    }
+}
+```
+
 ## サンプル
 
 サンプルシーンは `Assets/_Example/` に含まれています。
@@ -179,3 +264,5 @@ MIT License
 - [Understanding the Metal Performance HUD metrics](https://developer.apple.com/documentation/xcode/understanding-metal-performance-hud-metrics)
 - [Gaining performance insights with the Metal Performance HUD](https://developer.apple.com/documentation/xcode/gaining-performance-insights-with-metal-performance-hud)
 - [Generating performance reports with the Metal Performance HUD](https://developer.apple.com/documentation/xcode/generating-performance-reports-with-metal-performance-hud)
+- [Getting started with StateReporting](https://developer.apple.com/documentation/statereporting/getting-started-with-statereporting)
+  - [WWDC2026 - Find and fix performance issues in Metal games](https://developer.apple.com/videos/play/wwdc2026/388/)

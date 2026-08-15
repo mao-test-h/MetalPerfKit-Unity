@@ -17,12 +17,14 @@ This package enables you to leverage Metal's performance analysis features when 
 Key features:
 - Control visibility and position of Metal Performance HUD
 - Capture and save performance logs
+- Report application state through StateReporting
 - Configure Metal environment variables during Xcode build
 
 ## Requirements
 
 - Unity 2022.3+
 - iOS 16+
+  - When using `StateReporter`: Xcode 27+ / iOS 27+
 
 ## Installation (WIP)
 
@@ -158,10 +160,93 @@ Sets Metal-related environment variables during Xcode build.
 
 #### Usage
 
-1. Create a settings file in `Assets/Settings` or similar location
+1. Create a settings file in `Assets/Settings` or a similar location
    - Right-click > Create > MetalPerfKit > Launch Environment
-2. Configure environment variables in the Inspector
-3. Variables are automatically applied to the Xcode project during build
+2. Configure the environment variables in the Inspector
+3. The variables are automatically applied to the Xcode project during build
+
+### 4. StateReporter (Preview)
+
+> [!WARNING]
+> `StateReporter` is a preview feature.
+>
+> It works in apps built with Xcode 27 or later and running on iOS 27 or later.
+> Calls are ignored when the app is built with an SDK that doesn't contain the `StateReporting` framework or when it runs on an iOS version earlier than iOS 27.
+
+The `StateReporter` included in this package uses Apple's `StateReporting API` to record application state transitions and metadata.
+For detailed specifications, including an API overview and rate limits on call frequency, refer to the official documentation.
+
+- [Getting started with StateReporting](https://developer.apple.com/documentation/statereporting/getting-started-with-statereporting)
+- [StateReporter](https://developer.apple.com/documentation/statereporting/statereporter)
+
+#### API
+
+```csharp
+// Get the StateReporter for the specified domain
+StateReporter StateReporter.ReporterForDomain(string domain)
+
+// Record a transition to a new state
+void ReportTransitionToStateLabel(
+    string stateLabel,
+    IReadOnlyDictionary<string, StateReporterMetadataValue> stableMetadata = null,
+    IReadOnlyDictionary<string, StateReporterMetadataValue> volatileMetadata = null)
+
+// Update volatileMetadata while keeping the current state active
+void ReportVolatileMetadataUpdate(
+    IReadOnlyDictionary<string, StateReporterMetadataValue> updatedMetadata)
+```
+
+`StateReporterMetadataValue` accepts the following types:
+
+- `string`
+- `bool`
+- `sbyte`, `short`, `int`, `long`
+- `byte`, `ushort`, `uint`, `ulong`
+- `float`, `double`
+- `DateTimeOffset`
+
+#### Example Usage
+
+```csharp
+using System.Collections.Generic;
+using MetalPerfKit;
+using UnityEngine;
+
+public class StateReporterExample : MonoBehaviour
+{
+    private StateReporter _gameplayReporter;
+
+    void Start()
+    {
+        _gameplayReporter = StateReporter.ReporterForDomain("com.mygame.gameplay");
+        _gameplayReporter.ReportTransitionToStateLabel(
+            "Playing",
+            new Dictionary<string, StateReporterMetadataValue>
+            {
+                ["graphicsQuality"] = "High",
+                ["engineVersion"] = "1.2.3"
+            },
+            new Dictionary<string, StateReporterMetadataValue>
+            {
+                ["health"] = 100
+            });
+    }
+
+    void UpdateHealth(int health)
+    {
+        _gameplayReporter.ReportVolatileMetadataUpdate(
+            new Dictionary<string, StateReporterMetadataValue>
+            {
+                ["health"] = health
+            });
+    }
+
+    void EndGameplay()
+    {
+        _gameplayReporter.ReportTransitionToStateLabel(null);
+    }
+}
+```
 
 ## Samples
 
@@ -181,3 +266,5 @@ MIT License
 - [Understanding the Metal Performance HUD metrics](https://developer.apple.com/documentation/xcode/understanding-metal-performance-hud-metrics)
 - [Gaining performance insights with the Metal Performance HUD](https://developer.apple.com/documentation/xcode/gaining-performance-insights-with-metal-performance-hud)
 - [Generating performance reports with the Metal Performance HUD](https://developer.apple.com/documentation/xcode/generating-performance-reports-with-metal-performance-hud)
+- [Getting started with StateReporting](https://developer.apple.com/documentation/statereporting/getting-started-with-statereporting)
+  - [WWDC2026 - Find and fix performance issues in Metal games](https://developer.apple.com/videos/play/wwdc2026/388/)
