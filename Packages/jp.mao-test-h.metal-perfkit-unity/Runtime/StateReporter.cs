@@ -48,10 +48,10 @@ namespace MetalPerfKit
         }
 
         /// <summary>
-        /// 新しい状態への遷移を報告する
+        /// 新しい状態への遷移を記録する
         /// </summary>
         /// <param name="stateLabel">新しい状態のラベル。null の場合はメタデータを無視して現在の状態を終了する</param>
-        /// <param name="stableMetadata">状態ラベルとともに状態を識別する安定したメタデータ</param>
+        /// <param name="stableMetadata">状態ラベルとともに状態を識別するメタデータ</param>
         /// <param name="volatileMetadata">状態内で変化するメタデータ</param>
         public void ReportTransitionToStateLabel(
             string stateLabel,
@@ -73,7 +73,7 @@ namespace MetalPerfKit
         }
 
         /// <summary>
-        /// 現在の状態を維持したまま volatile metadata を更新する
+        /// 現在の状態を維持したまま volatileMetadata を更新する
         /// </summary>
         /// <param name="updatedMetadata">更新するメタデータ。null の場合は現在の volatile metadata を消去する</param>
         public void ReportVolatileMetadataUpdate(
