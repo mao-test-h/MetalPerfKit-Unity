@@ -24,7 +24,7 @@ Key features:
 
 - Unity 2022.3+
 - iOS 16+
-- Xcode 27+ / iOS 27+ when using StateReporter
+  - When using `StateReporter`: Xcode 27+ / iOS 27+
 
 ## Installation (WIP)
 
@@ -142,26 +142,68 @@ public class Example : MonoBehaviour
 }
 ```
 
-### 3. StateReporter
+### 3. LaunchEnvironment (Editor Extension)
 
-Reports application state transitions and metadata through StateReporting.
-StateReporter operates in apps built with Xcode 27 or later and running on iOS 27 or later. Calls are ignored when the SDK doesn't contain StateReporting or the device is running an earlier iOS version.
+Sets Metal-related environment variables during Xcode build.
+
+#### Supported Environment Variables
+
+- `MTL_HUD_OPACITY`: HUD opacity (0.0 to 1.0)
+- `MTL_HUD_SCALE`: HUD scale (0.0 to 1.0)
+- `MTL_HUD_ALIGNMENT`: HUD alignment position
+  - topleft, topcenter, topright
+  - centerleft, centered, centerright
+  - bottomleft, bottomcenter, bottomright
+- `MTL_HUD_INSIGHTS_ENABLED`: Enable Metal Insights
+- `MTL_HUD_INSIGHT_TIMEOUT`: Insights timeout duration
+- `MTL_HUD_INSIGHT_REPORT_INTERVAL`: Insights report interval
+
+#### Usage
+
+1. Create a settings file in `Assets/Settings` or a similar location
+   - Right-click > Create > MetalPerfKit > Launch Environment
+2. Configure the environment variables in the Inspector
+3. The variables are automatically applied to the Xcode project during build
+
+### 4. StateReporter (Preview)
+
+> [!WARNING]
+> `StateReporter` is a preview feature.
+>
+> It works in apps built with Xcode 27 or later and running on iOS 27 or later.
+> Calls are ignored when the app is built with an SDK that doesn't contain the `StateReporting` framework or when it runs on an iOS version earlier than iOS 27.
+
+The `StateReporter` included in this package uses Apple's `StateReporting API` to record application state transitions and metadata.
+For detailed specifications, including an API overview and rate limits on call frequency, refer to the official documentation.
+
+- [Getting started with StateReporting](https://developer.apple.com/documentation/statereporting/getting-started-with-statereporting)
+- [StateReporter](https://developer.apple.com/documentation/statereporting/statereporter)
 
 #### API
 
 ```csharp
+// Get the StateReporter for the specified domain
 StateReporter StateReporter.ReporterForDomain(string domain)
 
+// Record a transition to a new state
 void ReportTransitionToStateLabel(
     string stateLabel,
     IReadOnlyDictionary<string, StateReporterMetadataValue> stableMetadata = null,
     IReadOnlyDictionary<string, StateReporterMetadataValue> volatileMetadata = null)
 
+// Update volatileMetadata while keeping the current state active
 void ReportVolatileMetadataUpdate(
     IReadOnlyDictionary<string, StateReporterMetadataValue> updatedMetadata)
 ```
 
-`StateReporterMetadataValue` accepts strings, Boolean values, signed and unsigned integers, `float`, `double`, and `DateTimeOffset`.
+`StateReporterMetadataValue` accepts the following types:
+
+- `string`
+- `bool`
+- `sbyte`, `short`, `int`, `long`
+- `byte`, `ushort`, `uint`, `ulong`
+- `float`, `double`
+- `DateTimeOffset`
 
 #### Example Usage
 
@@ -205,43 +247,6 @@ public class StateReporterExample : MonoBehaviour
     }
 }
 ```
-
-`ReporterForDomain` returns the same instance for a given domain. Keep the reporter in a field or another long-lived object for as long as the domain is relevant. Use a stable reverse-DNS string that represents one functional area. Changing the domain name starts a new data series that isn't correlated with data collected under the previous name.
-
-At most one state can be active in each domain. A state is identified by the combination of its label and stable metadata. Reporting the same label and stable metadata as the current state doesn't record a new transition.
-
-- Use a small, fixed set of short labels such as `Playing`, `High`, or `Low`.
-- Stable metadata participates in per-state aggregation. Use it for information with few distinct values, such as graphics quality or engine version.
-- Use volatile metadata for health, progress, position, and other values that change within a state. Volatile metadata doesn't affect per-state aggregation.
-
-`ReportTransitionToStateLabel(null)` ends the current state. If the state label is `null`, any stable and volatile metadata passed with it is ignored. `ReportVolatileMetadataUpdate(null)` clears volatile metadata without ending the current state and has no effect when no state is active.
-
-State transitions and volatile metadata updates are rate-limited. Don't call them every frame or in a tight loop. Call them at human-interaction timescales, such as a button press, screen navigation, or activity start, or less frequently. StateReporting drops data when these methods are called too often.
-
-After instrumenting the app, use Metal Performance HUD or Instruments to verify that domains, transitions, and metadata appear as intended.
-
-### 4. LaunchEnvironment (Editor Extension)
-
-Sets Metal-related environment variables during Xcode build.
-
-#### Supported Environment Variables
-
-- `MTL_HUD_OPACITY`: HUD opacity (0.0 to 1.0)
-- `MTL_HUD_SCALE`: HUD scale (0.0 to 1.0)
-- `MTL_HUD_ALIGNMENT`: HUD alignment position
-  - topleft, topcenter, topright
-  - centerleft, centered, centerright
-  - bottomleft, bottomcenter, bottomright
-- `MTL_HUD_INSIGHTS_ENABLED`: Enable Metal Insights
-- `MTL_HUD_INSIGHT_TIMEOUT`: Insights timeout duration
-- `MTL_HUD_INSIGHT_REPORT_INTERVAL`: Insights report interval
-
-#### Usage
-
-1. Create a settings file in `Assets/Settings` or similar location
-   - Right-click > Create > MetalPerfKit > Launch Environment
-2. Configure environment variables in the Inspector
-3. Variables are automatically applied to the Xcode project during build
 
 ## Samples
 
