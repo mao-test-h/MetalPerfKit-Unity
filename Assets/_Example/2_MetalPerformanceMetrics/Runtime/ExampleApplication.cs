@@ -8,8 +8,6 @@ namespace _Example.MetalPerformanceMetrics
 {
     internal sealed class ExampleApplication : MonoBehaviour
     {
-        private const string ScreenStateLabel = "Screen";
-        private const string GraphicsStateLabel = "Graphics";
         private const string PerformantQualityName = "Performant";
         private const string BalancedQualityName = "Balanced";
         private const string HighFidelityQualityName = "High Fidelity";
@@ -323,12 +321,8 @@ namespace _Example.MetalPerformanceMetrics
         private void ReportScreenState()
         {
             ReportSafely(() => _screenReporter.ReportTransitionToStateLabel(
-                ScreenStateLabel,
-                new Dictionary<string, StateReporterMetadataValue>
-                {
-                    ["ScreenName"] = _currentScreen.ToString()
-                },
-                new Dictionary<string, StateReporterMetadataValue>
+                _currentScreen.ToString(),
+                volatileMetadata: new Dictionary<string, StateReporterMetadataValue>
                 {
                     ["CubeCount"] = CubeCount
                 }));
@@ -346,11 +340,7 @@ namespace _Example.MetalPerformanceMetrics
         private void ReportGraphicsState()
         {
             ReportSafely(() => _graphicsReporter.ReportTransitionToStateLabel(
-                GraphicsStateLabel,
-                new Dictionary<string, StateReporterMetadataValue>
-                {
-                    ["Quality"] = GetQualityMetadataValue(_currentQuality)
-                }));
+                GetQualityStateLabel(_currentQuality)));
         }
 
         private static void ReportSafely(Action report)
@@ -387,7 +377,7 @@ namespace _Example.MetalPerformanceMetrics
             };
         }
 
-        private static string GetQualityMetadataValue(GraphicsQuality quality)
+        private static string GetQualityStateLabel(GraphicsQuality quality)
         {
             return quality switch
             {
